@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './App.css';
-import { fn, cu } from '../functions'
+import { cu } from '../functions'
 
 export default class App extends Component {
 

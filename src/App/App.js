@@ -70,6 +70,7 @@ export default class App extends Component {
       })
       localStorage.setItem('theme', 'dark')
       document.body.style.backgroundColor = '#161b22';
+      window.location.reload()
     }else if(color === 'dark'){
       this.setState({
         theme: {
@@ -81,6 +82,7 @@ export default class App extends Component {
       })
       localStorage.setItem('theme', 'light')
       document.body.style.backgroundColor = 'white';
+      window.location.reload()
     }
   }
   
@@ -149,5 +151,3 @@ export default class App extends Component {
     )
   }
 }
-
-

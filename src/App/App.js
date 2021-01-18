@@ -40,7 +40,7 @@ export default class App extends Component {
           name: 'Dark',
           bgColor: '#161b22',
           color: 'white',
-          textColor: 'white'
+          textColor: 'black'
         }
       })
     }else if(localStorage.getItem('theme') === 'dark'){
@@ -62,7 +62,7 @@ export default class App extends Component {
     if(color === 'light'){
       this.setState({
         theme: {
-          name: 'Light',
+          name: 'Dark',
           bgColor: '#161b22',
           color: 'white',
           textColor: 'white'
@@ -73,7 +73,7 @@ export default class App extends Component {
     }else if(color === 'dark'){
       this.setState({
         theme: {
-          name: 'Dark',
+          name: 'Light',
           bgColor: '#161b22',
           color: 'white',
           textColor: 'black'
@@ -141,7 +141,7 @@ export default class App extends Component {
           <div className='w3-col m3 l3' style={{marginTop: '50px'}}>
             <div className='w3-row'>
               <div className='w3-col s6 m6 l6 w3-padding' style={{color: this.state.theme.textColor}}>Theme</div>
-              <div className='w3-col s6 m6 l6'><button className='w3-btn w3-round' style={{backgroundColor: this.state.theme.bgColor, color: this.state.theme.textColor}} onClick={this.theme}>{this.state.theme.name}</button></div>
+              <div className='w3-col s6 m6 l6'><button className='w3-btn w3-round' style={{backgroundColor: this.state.theme.bgColor, color: this.state.theme.color}} onClick={this.theme}>{this.state.theme.name}</button></div>
             </div>
           </div>
         </div>

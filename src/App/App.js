@@ -14,8 +14,11 @@ export default class App extends Component {
   
   cookie = new Cookies();
   componentDidMount(){
-    if(this.cookie.get('id') === ''){
-
+    if(this.cookie.get('id') === 'anonymous'){
+      db.collection('Admin').doc('Users').get()
+      .then(p=>{
+        
+      })
     }else{
       db.collection('Posts').doc(this.cookie.get('id')).onSnapshot(t=>{
         if(t.exists){

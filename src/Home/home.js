@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './home.css'
-import {  hm } from '../functions'
+import { fn, hm } from '../functions'
 import any from '../assets/img/anonymous.svg'
 
 export default class home extends Component {

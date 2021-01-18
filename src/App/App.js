@@ -26,7 +26,7 @@ export default class App extends Component {
     return (
       <div className='w3-center'>
         <div style={{display: 'inline-block'}}>
-          <form>
+          <form >
             <input type='search' placeholder='Search' id='search' className='w3-input w3-border w3-round w3-margin-top search' />
           </form>
         </div>

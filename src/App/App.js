@@ -141,7 +141,7 @@ export default class App extends Component {
             }
           </div>
           <div className='w3-col m3 l3' style={{marginTop: '50px'}}>
-            <div className='w3-row'>
+            <div className='w3-row w3-hide-small'>
               <div className='w3-col s6 m6 l6 w3-padding' style={{color: this.state.theme.textColor}}>Theme</div>
               <div className='w3-col s6 m6 l6'><button className='w3-btn w3-round' style={{backgroundColor: this.state.theme.bgColor, color: this.state.theme.color}} onClick={this.theme}>{this.state.theme.name}</button></div>
             </div>

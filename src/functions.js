@@ -90,6 +90,11 @@ class Home extends Functions {
             })
         }
     }
+
+    anymousLogin = () => {
+        this.cookie.set('id', 'anonymous')
+        window.location.assign('/App')
+    }
 }
 
 const hm = new Home();

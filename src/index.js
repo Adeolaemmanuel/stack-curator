@@ -12,15 +12,26 @@ export default class Index extends Component {
 
   cookies = new Cookies();
   render() {
+    if(this.cookies.get('id')){
+      return(
+        <div>
+          <Router>
+            <Route path='/' exact>
+              <Home />
+            </Route>
+            <Route path='/App' exact>
+              <App />
+            </Route>
+          </Router>
+        </div>
+      )
+    }
     return (
       <div>
         <Router>
           <Route path='/' exact>
             <Home />
           </Route>
-          <Route path='/App' exact>
-              <App />
-            </Route>
         </Router>
       </div>
     )

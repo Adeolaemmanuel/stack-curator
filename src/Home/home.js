@@ -65,7 +65,7 @@ export default class home extends Component {
 
                 <div className="content flex">
                     <p>Adeola Kittan | {this.state.date.getFullYear()}</p>
-                    <img src={any} alt='Anonymous login' className='w3-padding' title='Anonymous login' style={{cursor: 'pointer', width: '70px', height: '70px'}} />
+                    <img src={any} alt='Anonymous login' className='w3-padding' title='Anonymous login' onClick={hm.anymousLogin} style={{cursor: 'pointer', width: '70px', height: '70px'}} />
                 </div>
             </>
         )

@@ -109,7 +109,7 @@ export default class App extends Component {
             </form>
 
             {
-              cu.post()
+              cu.post(this.state.theme)
             }
 
             {

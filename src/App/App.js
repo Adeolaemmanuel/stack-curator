@@ -10,6 +10,7 @@ export default class App extends Component {
     this.state = {
       posts: [],
       comment: [],
+      theme: {name: '', color: '', bgColor: ''},
     }
   }
   
@@ -30,13 +31,50 @@ export default class App extends Component {
       }
       
     })
+
+    if(localStorage.getItem('theme') === 'light'){
+      this.setState({
+        theme: {
+          name: 'Dark',
+          bgColor: '#161b22',
+          color: 'white'
+        }
+      })
+    }
     
+  }
+
+  theme = () => {
+    let color = localStorage.getItem('theme')
+    if(color === 'light'){
+      this.setState({
+        theme: {
+          name: 'Light',
+          bgColor: '#161b22',
+          color: 'white'
+        }
+      })
+      localStorage.setItem('theme', 'dark')
+      document.body.style.backgroundColor = '#161b22';
+      document.body.style.color = 'white'
+    }else if(color === 'dark'){
+      this.setState({
+        theme: {
+          name: 'Dark',
+          bgColor: '#161b22',
+          color: 'white'
+        }
+      })
+      localStorage.setItem('theme', 'light')
+      document.body.style.backgroundColor = 'white';
+      document.body.style.color = 'black'
+    }
   }
   
   commentFilter = (arr,ind) => {
     if(ind === arr.id){
       return(
-        <div className='w3-padding w3-small w3-margin-top w3-card w3-round-xlarge  w3-mobile' style={{display:'block', maxWidth: '100%'}}>
+        <div className='w3-padding w3-small w3-margin-top w3-card w3-round-xlarge  w3-mobile' key={`${ind}`} style={{display:'block', maxWidth: '100%'}}>
           <span >{arr.comment}</span>
         </div>
       )
@@ -87,8 +125,16 @@ export default class App extends Component {
               })
             }
           </div>
+          <div className='w3-col m3 l3 '>
+            <div className='w3-row'>
+              <div className='w3-col s6 m6 l6 w3-padding'>Theme</div>
+              <div className='w3-col s6 m6 l6'><button className='w3-btn w3-round' style={{backgroundColor: this.state.theme.bgColor, color: this.state.theme.color}} onClick={this.theme}>{this.state.theme.name}</button></div>
+            </div>
+          </div>
         </div>
       </div>
     )
   }
 }
+
+

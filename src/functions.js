@@ -49,6 +49,7 @@ class Home extends Functions {
                     if(data.username === x.data().user && data.password === x.data().pass){
                         this.cookie.set('id', data.username)
                         window.location.assign("/App")
+                        localStorage.setItem('theme', 'light')
                     }
                 }
             })
@@ -76,6 +77,7 @@ class Home extends Functions {
                             }).then(()=>{
                                 this.cookie.set('id', data.username)
                                 window.location.assign("/App")
+                                localStorage.setItem('theme', 'light')
                             })
                         }
                     }else{
@@ -84,6 +86,7 @@ class Home extends Functions {
                         }).then(()=>{
                             this.cookie.set('id', data.username)
                             window.location.assign("/App")
+                            localStorage.setItem('theme', 'light')
                         })
                     }
                 })
@@ -93,6 +96,7 @@ class Home extends Functions {
 
     anymousLogin = () => {
         this.cookie.set('id', 'anonymous')
+        localStorage.setItem('theme', 'light')
         window.location.assign('/App')
     }
 }
@@ -129,6 +133,9 @@ class Curate extends Functions {
                             comment: [],
                             postCount: +1,
                             commentCount: +1
+                        }).then(()=>{
+                            document.getElementById('tags').value = ''
+                            document.getElementById('posts').value = ''
                         })
                     }else{
                         console.log(data);
@@ -137,6 +144,9 @@ class Curate extends Functions {
                             comment: [],
                             postCount: 1,
                             commentCount: 1,
+                        }).then(()=>{
+                            document.getElementById('tags').value = ''
+                            document.getElementById('posts').value = ''
                         })
                     }
                 })
@@ -149,7 +159,7 @@ class Curate extends Functions {
             return(
                 <div>
                     <div className='w3-center' id='curate'>
-                        <button className='w3-btn w3-black w3-round w3-margin-top' onClick={e=>{cu.postQuestion(e,'curate')}}>Curate</button>
+                        <button className='w3-btn w3-black w3-round w3-margin-top' onClick={e=>{cu.postQuestion(e,'curate')}}>Let out a Sigh</button>
                     </div>
                     <div className='w3-padding w3-card-4 w3-round w3-margin-top w3-margin-bottom w3-hide' id='post'>
                         <span className='w3-button w3-padding w3-right' onClick={()=>{document.getElementById('post').classList.add('w3-hide');document.getElementById('curate').classList.remove('w3-hide')}} >X</span>
@@ -198,8 +208,11 @@ class Curate extends Functions {
         }
         db.collection('Posts').doc(user).update({
             comment: firebase.firestore.FieldValue.arrayUnion(data)
+        }).then(()=>{
+            e.target.elements.com.value = ''
         })
     }
+
 }
 
 const cu = new Curate();

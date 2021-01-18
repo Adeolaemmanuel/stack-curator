@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import './App.css';
-import { cu, hm } from '../functions'
-
+import {  hm } from '../functions'
+import { db } from "../database"
+import { Cookies } from 'react-cookie'
 export default class App extends Component {
 
   constructor(props) {
@@ -11,8 +12,13 @@ export default class App extends Component {
     }
   }
   
+  cookie = new Cookies();
   componentDidMount(){
-    this.setState({posts: cu.getTimeline()})
+    db.collection('Posts').doc(this.cookie.get('id')).onSnapshot(t=>{
+      if(t.exists){
+          this.setState({posts: [...t.data().posts]})
+      }
+    })
   }
 
 
@@ -26,17 +32,28 @@ export default class App extends Component {
         </div>
 
         <div className='w3-row w3-margin-top'>
-          <div className='w3-col m2 l2 w3-hide-small'><br /></div>
-          <div className='w3-col s12 m8 l8'>
+          <div className='w3-col m3 l3 w3-hide-small'><br /></div>
+          <div className='w3-col s12 m6 l6'>
             {
               hm.post()
             }
 
             {
-              this.state.posts.map(arr=>{
+              this.state.posts.map((arr,ind)=>{
                 return(
-                  <div className='w3-row'>
-                    <p>{arr.posts}</p>
+                  <div key={ind}>
+                    <div className='w3-row w3-card w3-round w3-margin-top'>
+                      <div className='w3-col m6 l6 s6'><p>{arr.post}</p></div>
+                      <div className='w3-col m6 l6 s6'><p>{arr.time}</p></div>
+                    </div>
+
+                    <div>
+                      <div id='comment' className=''>
+                        <form className='w3-container w3-padding' style={{display: 'inline-block'}}>
+                          <input className='w3-input w3-border w3-round-large' placeholder='Your Opinoin' />
+                        </form>
+                      </div>
+                    </div>
                   </div>
                 )
               })

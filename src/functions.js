@@ -106,7 +106,7 @@ class Home extends Functions {
                     <div className='w3-padding w3-card-4 w3-round w3-margin-top w3-margin-bottom w3-hide' id='post'>
                         <form className='w3-margin-top'>
                             <input className='w3-input w3-border w3-round' type='text' placeholder="Tags" id='tags' />
-                            <textarea className='w3-input w3-border w3-round w3-margin-top' id='post' placeholder="What's on your mind..."></textarea>
+                            <textarea className='w3-input w3-border w3-round w3-margin-top' id='posts' placeholder="What's on your mind..."></textarea>
                             <div className=''>
                             <button className='w3-btn w3-black w3-round w3-margin-top'  onClick={e=>{cu.postQuestion(e,'post')}}>Send</button>
                             </div>
@@ -121,16 +121,6 @@ class Home extends Functions {
 const hm = new Home();
 
 class Curate extends Functions {
-
-    getTimeline = () => {
-        let post = []
-        db.collection('Post').doc(this.cookie.get('id')).onSnapshot(t=>{
-            if(t.exists){
-                post = [...t.data().posts]
-            }
-        })
-        return post
-    }
 
     postQuestion = (e,pram) =>{
         e.preventDefault();
@@ -148,10 +138,10 @@ class Curate extends Functions {
                 time: `${this.date.getHours()}:${this.date.getMinutes()}:${this.date.getSeconds()}`,
                 date: `${this.date.getMonth()}/${this.date.getDay()}/${this.date.getFullYear()}`,
                 tags: document.getElementById('tags').value,
-                post: document.getElementById('post').value
+                post: document.getElementById('posts').value
             }
             if(data.post !== '' && data.tags !== ''){
-                db.collection('Post').doc(this.cookie.get('id')).get()
+                db.collection('Posts').doc(this.cookie.get('id')).get()
                 .then(p=>{
                     if(p.exists){
                         db.collection('Posts').doc(this.cookie.get('id')).update({
@@ -160,10 +150,11 @@ class Curate extends Functions {
                             comment: +1
                         })
                     }else{
+                        console.log(data);
                         db.collection('Posts').doc(this.cookie.get('id')).set({
                             posts: [data],
-                            postCount: 0,
-                            comment: 0,
+                            postCount: 1,
+                            comment: 1,
                         })
                     }
                 })

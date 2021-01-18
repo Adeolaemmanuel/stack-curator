@@ -10,7 +10,7 @@ export default class App extends Component {
     this.state = {
       posts: [],
       comment: [],
-      theme: {name: '', color: '', bgColor: ''},
+      theme: {name: '', color: '', bgColor: '', textColor: ''},
     }
   }
   
@@ -39,9 +39,20 @@ export default class App extends Component {
         theme: {
           name: 'Dark',
           bgColor: '#161b22',
-          color: 'white'
+          color: 'white',
+          textColor: 'black'
         }
       })
+    }else if(localStorage.getItem('theme') === 'dark'){
+      this.setState({
+        theme: {
+          name: 'Dark',
+          bgColor: '#161b22',
+          color: 'black',
+          textColor: 'white'
+        }
+      })
+      document.body.style.backgroundColor = '#161b22';
     }
     
   }
@@ -53,7 +64,8 @@ export default class App extends Component {
         theme: {
           name: 'Light',
           bgColor: '#161b22',
-          color: 'white'
+          color: 'white',
+          textColor: 'white'
         }
       })
       localStorage.setItem('theme', 'dark')
@@ -64,7 +76,8 @@ export default class App extends Component {
         theme: {
           name: 'Dark',
           bgColor: '#161b22',
-          color: 'white'
+          color: 'white',
+          textColor: 'black'
         }
       })
       localStorage.setItem('theme', 'light')
@@ -104,8 +117,8 @@ export default class App extends Component {
                 return(
                   <div key={ind}>
                     <div className='w3-row w3-card w3-round w3-margin-top w3-hover-blue  w3-mobile' onClick={()=>{cu.more(`${ind}C`)}} style={{cursor: 'pointer'}}>
-                      <div className='w3-col m6 l6 s6'><p>{arr.post}</p></div>
-                      <div className='w3-col m6 l6 s6'><p>{arr.time}</p></div>
+                      <div className='w3-col m6 l6 s6'><p style={{color: this.state.theme.textColor}}>{arr.post}</p></div>
+                      <div className='w3-col m6 l6 s6'><p style={{color: this.state.theme.textColor}}>{arr.time}</p></div>
                     </div>
 
                     <div className='w3-hide' id={`${ind}C`}>

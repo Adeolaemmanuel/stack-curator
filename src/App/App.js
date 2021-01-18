@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './App.css';
-import {  cu,hm } from '../functions'
+import { cu } from '../functions'
 import { db } from "../database"
 import { Cookies } from 'react-cookie'
 export default class App extends Component {
@@ -39,8 +39,9 @@ export default class App extends Component {
             <form className=''>
               <input type='search' placeholder='Search' id='search' className='w3-input w3-border w3-round w3-margin-top search' />
             </form>
+
             {
-              hm.post()
+              cu.post()
             }
 
             {
@@ -54,9 +55,9 @@ export default class App extends Component {
 
                     <div className='w3-hide' id={`${ind}C`}>
                       <div id='comment'>
-                        <form className='w3-container w3-padding'>
-                          <input className='w3-input w3-border w3-round-large' placeholder='Your Opinoin' />
-                        </form>
+                        {
+                          cu.comment()
+                        }
                       </div>
                     </div>
                   </div>

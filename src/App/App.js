@@ -23,9 +23,11 @@ export default class App extends Component {
         db.collection('Posts').doc(users[a]).onSnapshot(t=>{
           if(t.exists){
             let post = []
+            let comment = []
             post.push(t.data().posts)
+            comment.push(t.data().comment)
             this.setState({posts: post[0]})
-            this.setState({comment: t.data().comment})
+            this.setState({comment: comment[0]})
           }
         })
       }
@@ -125,7 +127,7 @@ export default class App extends Component {
               })
             }
           </div>
-          <div className='w3-col m3 l3 '>
+          <div className='w3-col m3 l3' style={{marginTop: '50px'}}>
             <div className='w3-row'>
               <div className='w3-col s6 m6 l6 w3-padding'>Theme</div>
               <div className='w3-col s6 m6 l6'><button className='w3-btn w3-round' style={{backgroundColor: this.state.theme.bgColor, color: this.state.theme.color}} onClick={this.theme}>{this.state.theme.name}</button></div>

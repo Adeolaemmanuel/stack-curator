@@ -8,23 +8,38 @@ export default class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      posts: []
+      posts: [],
+      comment: [],
     }
   }
   
   cookie = new Cookies();
   componentDidMount(){
-    if(this.cookie.get('id') === 'anonymous'){
-      db.collection('Admin').doc('Users').get()
-      .then(p=>{
-        
-      })
-    }else{
-      db.collection('Posts').doc(this.cookie.get('id')).onSnapshot(t=>{
-        if(t.exists){
-            this.setState({posts: [...t.data().posts]})
-        }
-      })
+    db.collection('Admin').doc('Users')
+    .onSnapshot(u=>{
+      let users = [...u.data().userId]
+      for(let a=0; a<users.length; a++){
+        db.collection('Posts').doc(users[a]).onSnapshot(t=>{
+          if(t.exists){
+            let post = []
+            post.push(t.data().posts)
+            this.setState({posts: post[0]})
+            this.setState({comment: t.data().comment})
+          }
+        })
+      }
+      
+    })
+    
+  }
+  
+  commentFilter = (arr,ind) => {
+    if(ind === arr.id){
+      return(
+        <div className='w3-padding w3-small w3-margin-top w3-card w3-round-xlarge' style={{display:'block', maxWidth: '100%'}}>
+          <span >{arr.comment}</span>
+        </div>
+      )
     }
   }
 
@@ -54,9 +69,16 @@ export default class App extends Component {
                     </div>
 
                     <div className='w3-hide' id={`${ind}C`}>
+                      {
+                        this.state.comment.map((arr)=>{
+                          return(
+                            this.commentFilter(arr,ind)
+                          )
+                        })
+                      }
                       <div id='comment'>
                         {
-                          cu.comment()
+                          cu.comment(ind,arr.user)
                         }
                       </div>
                     </div>

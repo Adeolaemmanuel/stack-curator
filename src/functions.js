@@ -117,7 +117,8 @@ class Curate extends Functions {
                 time: `${this.date.getHours()}:${this.date.getMinutes()}:${this.date.getSeconds()}`,
                 date: `${this.date.getMonth()}/${this.date.getDay()}/${this.date.getFullYear()}`,
                 tags: document.getElementById('tags').value,
-                post: document.getElementById('posts').value
+                post: document.getElementById('posts').value,
+                user: this.cookie.get('id')
             }
             if(data.post !== '' && data.tags !== ''){
                 db.collection('Posts').doc(this.cookie.get('id')).get()
@@ -125,15 +126,17 @@ class Curate extends Functions {
                     if(p.exists){
                         db.collection('Posts').doc(this.cookie.get('id')).update({
                             posts: firebase.firestore.FieldValue.arrayUnion(data),
+                            comment: [],
                             postCount: +1,
-                            comment: +1
+                            commentCount: +1
                         })
                     }else{
                         console.log(data);
                         db.collection('Posts').doc(this.cookie.get('id')).set({
                             posts: [data],
+                            comment: [],
                             postCount: 1,
-                            comment: 1,
+                            commentCount: 1,
                         })
                     }
                 })
@@ -172,17 +175,30 @@ class Curate extends Functions {
         }
     }
 
-    comment = () => {
+    comment = (id,user) => {
         if(this.cookie.get('id') !== 'anonymous'){
             return(
-                <form className='w3-container w3-padding'>
-                    <input className='w3-input w3-border w3-round-large' placeholder='Your Opinoin' />
+                <form className='w3-container w3-padding' onSubmit={e=>{this.sendComment(e,id,user)}}>
+                    <input className='w3-input w3-border w3-round-large' id='com' placeholder='Your Opinoin' />
                     <div className='w3-center w3-hide-large w3-hide-medium'>
                         <button className='w3-btn w3-black w3-round w3-margin-top'>Comment</button>
                     </div>
                 </form>
             )
         }
+    }
+
+    sendComment = (e,id,user) => {
+        e.preventDefault();
+        let data = {
+            comment: e.target.elements.com.value,
+            time: `${this.date.getHours()}:${this.date.getMinutes()}:${this.date.getSeconds()}`,
+            date: `${this.date.getMonth()}/${this.date.getDay()}/${this.date.getFullYear()}`,
+            id: id
+        }
+        db.collection('Posts').doc(user).update({
+            comment: firebase.firestore.FieldValue.arrayUnion(data)
+        })
     }
 }
 

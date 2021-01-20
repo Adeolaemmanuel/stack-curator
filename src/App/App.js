@@ -47,7 +47,7 @@ export default class App extends Component {
     }else if(localStorage.getItem('theme') === 'dark'){
       this.setState({
         theme: {
-          name: 'Dark',
+          name: 'Light',
           bgColor: '#161b22',
           color: '#161b22',
           textColor: 'white'

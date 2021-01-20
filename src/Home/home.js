@@ -33,6 +33,12 @@ export default class home extends Component {
                                     <button className='w3-black w3-btn w3-padding w3-margin-top w3-margin-bottom w3-round'>Login</button>
                                     <p className='w3-text-blue' style={{cursor: 'pointer'}} onClick={e=>{hm.home(e,'create')}}>Create free account</p>
                                 </form>
+                                <div className='w3-row'>
+                                    <div className='w3-col s6 m6 l6 w3-margin-top'>Anonymous loging</div>
+                                    <div className='w3-col s6 m6 l6'>
+                                        <img src={any} alt='Anonymous login' className='w3-padding' title='Anonymous login' onClick={hm.anymousLogin} style={{ cursor: 'pointer', width: '70px', height: '70px' }} />
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -65,7 +71,6 @@ export default class home extends Component {
 
                 <div className="content flex">
                     <p>Adeola Kittan | {this.state.date.getFullYear()}</p>
-                    <img src={any} alt='Anonymous login' className='w3-padding' title='Anonymous login' onClick={hm.anymousLogin} style={{cursor: 'pointer', width: '70px', height: '70px'}} />
                 </div>
             </>
         )

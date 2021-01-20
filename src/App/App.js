@@ -3,6 +3,7 @@ import './App.css';
 import { cu } from '../functions'
 import { db } from "../database"
 import { Cookies } from 'react-cookie'
+import { Nav } from './nav';
 export default class App extends Component {
 
   constructor(props) {
@@ -40,7 +41,7 @@ export default class App extends Component {
           name: 'Dark',
           bgColor: '#161b22',
           color: 'white',
-          textColor: 'black'
+          textColor: '#161b22'
         }
       })
     }else if(localStorage.getItem('theme') === 'dark'){
@@ -48,7 +49,7 @@ export default class App extends Component {
         theme: {
           name: 'Dark',
           bgColor: '#161b22',
-          color: 'black',
+          color: '#161b22',
           textColor: 'white'
         }
       })
@@ -57,34 +58,36 @@ export default class App extends Component {
     
   }
 
-  theme = () => {
-    let color = localStorage.getItem('theme')
-    if(color === 'light'){
-      this.setState({
-        theme: {
-          name: 'Dark',
-          bgColor: '#161b22',
-          color: 'white',
-          textColor: 'white'
+
+    theme = () => {
+        let color = localStorage.getItem('theme')
+        if (color === 'light') {
+            this.setState({
+                theme: {
+                    name: 'Dark',
+                    bgColor: '#161b22',
+                    color: 'white',
+                    textColor: 'white'
+                }
+            })
+            localStorage.setItem('theme', 'dark')
+            document.body.style.backgroundColor = '#161b22';
+            window.location.reload()
+        } else if (color === 'dark') {
+            this.setState({
+                theme: {
+                    name: 'Light',
+                    bgColor: '#161b22',
+                    color: 'white',
+                    textColor: 'black'
+                }
+            })
+            localStorage.setItem('theme', 'light')
+            document.body.style.backgroundColor = 'white';
+            window.location.reload()
         }
-      })
-      localStorage.setItem('theme', 'dark')
-      document.body.style.backgroundColor = '#161b22';
-      window.location.reload()
-    }else if(color === 'dark'){
-      this.setState({
-        theme: {
-          name: 'Light',
-          bgColor: '#161b22',
-          color: 'white',
-          textColor: 'black'
-        }
-      })
-      localStorage.setItem('theme', 'light')
-      document.body.style.backgroundColor = 'white';
-      window.location.reload()
     }
-  }
+  
   
   commentFilter = (arr,ind,textColor) => {
     if(ind === arr.id){
@@ -99,9 +102,9 @@ export default class App extends Component {
 
   render() {
     return (
-      <div className='w3-center'>
-
-        <div className='w3-row w3-margin-top'>
+        <div className=''>
+            <Nav theme={this.theme} themeSettings={this.state.theme} />
+        <div className='w3-row w3-margin-top '>
           <div className='w3-col m3 l3 w3-hide-small'><br /></div>
           <div className='w3-col s12 m6 l6'>
             <form className=''>
@@ -141,10 +144,7 @@ export default class App extends Component {
             }
           </div>
           <div className='w3-col m3 l3' style={{marginTop: '50px'}}>
-            <div className='w3-row w3-hide-small'>
-              <div className='w3-col s6 m6 l6 w3-padding' style={{color: this.state.theme.textColor}}>Theme</div>
-              <div className='w3-col s6 m6 l6'><button className='w3-btn w3-round' style={{backgroundColor: this.state.theme.bgColor, color: this.state.theme.color}} onClick={this.theme}>{this.state.theme.name}</button></div>
-            </div>
+            
           </div>
         </div>
       </div>

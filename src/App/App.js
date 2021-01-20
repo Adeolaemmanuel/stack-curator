@@ -101,8 +101,8 @@ export default class App extends Component {
 
 
   render() {
-    return (
-        <div className=''>
+      return (
+          <div className='w3-padding' style={{ width: '100%' }}>
             <Nav theme={this.theme} themeSettings={this.state.theme} />
         <div className='w3-row w3-margin-top '>
           <div className='w3-col m3 l3 w3-hide-small'><br /></div>
@@ -120,8 +120,8 @@ export default class App extends Component {
                 return(
                   <div key={ind}>
                     <div className='w3-row w3-card w3-round w3-margin-top w3-hover-blue  w3-mobile' onClick={()=>{cu.more(`${ind}C`)}} style={{cursor: 'pointer'}}>
-                      <div className='w3-col m6 l6 s6'><p style={{color: this.state.theme.textColor}}>{arr.post}</p></div>
-                      <div className='w3-col m6 l6 s6'><p style={{color: this.state.theme.textColor}}>{arr.time}</p></div>
+                      <div className='w3-col m6 l6 s6 w3-padding'><p style={{color: this.state.theme.textColor}}>{arr.post}</p></div>
+                      <div className='w3-col m6 l6 s6 w3-padding'><p style={{color: this.state.theme.textColor}}>{arr.time}</p></div>
                     </div>
 
                     <div className='w3-hide' id={`${ind}C`}>

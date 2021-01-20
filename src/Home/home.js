@@ -20,7 +20,7 @@ export default class home extends Component {
     
     render() {
         return (
-            <>
+            <div className='w3-padding' style = {{ width: '100%' }}>
                 <div className="header">
 
                     <div className="inner-header flex">
@@ -72,7 +72,7 @@ export default class home extends Component {
                 <div className="content flex">
                     <p>Adeola Kittan | {this.state.date.getFullYear()}</p>
                 </div>
-            </>
+            </div>
         )
     }
 }

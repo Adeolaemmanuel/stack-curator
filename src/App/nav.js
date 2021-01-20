@@ -11,6 +11,7 @@ export class Nav extends Component {
             menuBar: bar,
             theme: { name: '', color: '', bgColor: '', textColor: '' },
         }
+        this.theme = this.theme.bind(this)
     }
 
     componentDidMount() {
@@ -61,7 +62,7 @@ export class Nav extends Component {
             })
             localStorage.setItem('theme', 'light')
         }
-
+        this.props.theme()
     }
 
     nav = (e, pram) => {
@@ -94,7 +95,7 @@ export class Nav extends Component {
                 <div className='w3-sidebar w3-bar-block w3-hide w3-animate-left' id='sidebar' style={{ backgroundColor: this.state.theme.color, position: 'relative', left:'0' }}>
                     <div className='w3-row w3-bar-item w3-block w3-margin-top'>
                         <div className='w3-col s6 m6 l6 w3-padding' style={{ color: this.state.theme.textColor }}>Theme</div>
-                        <div className='w3-col s6 m6 l6'><button onClick={e => this.nav(e, 'close')} className='w3-btn w3-round' style={{ backgroundColor: this.state.theme.textColor, color: this.state.theme.color }} onClick={this.props.theme}>{this.props.themeSettings.name}</button></div>
+                        <div className='w3-col s6 m6 l6'><button onClick={e => this.nav(e, 'close')} className='w3-btn w3-round' style={{ backgroundColor: this.state.theme.textColor, color: this.state.theme.color }} onClick={this.theme}>{this.state.theme.name}</button></div>
                     </div>
                 </div>
             </div>

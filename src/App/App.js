@@ -123,11 +123,11 @@ export default class App extends Component {
                 return(
                   <div key={ind}>
                     <div className='w3-row w3-card w3-round w3-margin-top w3-hover-blue w3-mobile' onClick={()=>{cu.more(`${ind}C`)}} style={{cursor: 'pointer'}}>
-                      <div className='w3-col m6 l6 s6 w3-padding'><p style={{color: this.state.theme.textColor}}>{arr.post}</p></div>
-                      <div className='w3-col m6 l6 s6 w3-padding'><p style={{color: this.state.theme.textColor}}>{arr.time}</p></div>
+                      <div className='w3-col m9 l9 s9 w3-padding'><p style={{color: this.state.theme.textColor}}>{arr.post}</p></div>
+                      <div className='w3-col m3 l3 s3 w3-padding'><p style={{color: this.state.theme.textColor}}>{arr.date}</p></div>
                     </div>
 
-                    <div className='w3-hide' id={`${ind}C`}>
+                        <div className='w3-hide' id={`${ind}C`} >
                       {
                         this.state.comment.map((arr)=>{
                           return(

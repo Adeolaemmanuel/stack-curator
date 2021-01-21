@@ -92,11 +92,11 @@ export default class App extends Component {
     }
   
   
-  commentFilter = (arr,ind,textColor) => {
+  commentFilter = (arr,ind,theme) => {
     if(ind === arr.id){
         return (
             <div className='w3-margin-left'>
-              <span className='w3-padding w3-small w3-margin-top w3-card-4 w3-round-xlarge' style={{ display: 'inline-block', color: textColor }}>{arr.comment}</span>
+                <span className='w3-padding w3-small w3-margin-top w3-card-4 w3-round-xlarge' style={{ display: 'inline-block', color: theme.color, backgroundColor: theme.textColor }}>{arr.comment}</span>
             </div>
       )
     }
@@ -131,7 +131,7 @@ export default class App extends Component {
                       {
                         this.state.comment.map((arr)=>{
                           return(
-                            this.commentFilter(arr,ind,this.state.theme.textColor)
+                            this.commentFilter(arr,ind,this.state.theme)
                           )
                         })
                       }

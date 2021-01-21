@@ -189,20 +189,7 @@ class Curate extends Functions {
 
     emojiSend = (e, id, user) => {
         let emoj = e.target.id
-        console.log(emoj)
-        e.preventDefault();
-        let [month, date, year] = new Date().toLocaleDateString("en-US").split("/")
-        let [hour, minute] = new Date().toLocaleTimeString("en-US").split(/:| /)
-        let data = {
-            comment: document.querySelector(`#${emoj}`).innerHTML,
-            time: `${hour}:${minute}`,
-            date: `${month}/${date}/${year}`,
-            id: id,
-            user: this.cookie.get('id')
-        }
-        db.collection('Posts').doc(user).update({
-            comment: firebase.firestore.FieldValue.arrayUnion(data)
-        })
+        document.querySelector('#com').value = document.querySelector(`#${emoj}`).innerHTML
     }
 
     comment = (id,user,top,theme) => {

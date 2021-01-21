@@ -205,7 +205,7 @@ class Curate extends Functions {
         })
     }
 
-    comment = (id,user,theme) => {
+    comment = (id,user,top,theme) => {
         if(this.cookie.get('id') !== 'anonymous'){
             return(
                 <form className='w3-container w3-padding' onSubmit={e => { this.sendComment(e, id, user) }}>
@@ -228,8 +228,12 @@ class Curate extends Functions {
                         </div>
                         <div className='w3-col s2 m2 l2' style={{ cursor: 'pointer' }}><h3 id='hug' onClick={e => this.emojiSend(e, id, user)}>&#129303;</h3></div>
                     </div>
+                    
                     <div className='w3-center w3-hide-large w3-hide-medium'>
                         <button className='w3-btn w3-round w3-margin-top' style={{ backgroundColor: theme.textColor, color: theme.color }} >Comment</button>
+                    </div>
+                    <div className='w3-center'>
+                        <a href={`#${top}`} className='w3-text-blue w3-small w3-margin-top w3-bold'>back to top</a>
                     </div>
                 </form>
             )

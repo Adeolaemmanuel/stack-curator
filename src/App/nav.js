@@ -3,7 +3,7 @@ import bar from '../assets/img/menu.svg'
 import barw from '../assets/img/menuw.svg'
 
 
-export class Nav extends Component {
+export default class Nav extends Component {
 
     constructor(props) {
         super(props)

@@ -28,10 +28,14 @@ export default class App extends Component {
           if(t.exists){
             let post = []
             let comment = []
-            post.push(t.data().posts)
-            comment.push(t.data().comment)
-            this.setState({posts: post[0]})
-            this.setState({comment: comment[0]})
+            for (let p in t.data()['posts']) {
+                post.unshift(t.data()['posts'][p])
+            }
+            for (let p in t.data()['comment']) {
+                comment.unshift(t.data()['comment'][p])
+            }
+            this.setState({posts: post})
+            this.setState({comment: comment})
           }
         })
       }
@@ -123,8 +127,8 @@ export default class App extends Component {
                 return(
                   <div key={ind}>
                     <div className='w3-row w3-card w3-round w3-margin-top w3-hover-blue w3-mobile' onClick={()=>{cu.more(`${ind}C`)}} style={{cursor: 'pointer'}}>
-                      <div className='w3-col m9 l9 s9 w3-padding'><p style={{color: this.state.theme.textColor}}>{arr.post}</p></div>
-                      <div className='w3-col m3 l3 s3 w3-padding'><p style={{color: this.state.theme.textColor}}>{arr.time}</p></div>
+                            <div className='w3-col m9 l9 s9 w3-padding'><p style={{ color: this.state.theme.textColor }}>{arr.post}</p></div>
+                            <div className='w3-col m3 l3 s3 w3-padding'><p style={{ color: this.state.theme.textColor, overflowWrap: 'break-word' }}><span className='w3-margin-right'>{arr.time}</span>{arr.date}</p></div>
                     </div>
 
                         <div className='w3-hide' id={`${ind}C`} >

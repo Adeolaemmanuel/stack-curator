@@ -116,10 +116,13 @@ class Curate extends Functions {
             e.preventDefault()
             document.getElementById('post').classList.add('w3-hide')
             document.getElementById('curate').classList.remove('w3-hide')
+            let [month, date, year] = new Date().toLocaleDateString("en-US").split("/")
+            let [hour, minute] = new Date().toLocaleTimeString("en-US").split(/:| /)
+
 
             let data = {
-                time: `${this.date.getHours()}:${this.date.getMinutes()}:${this.date.getSeconds()}`,
-                date: `${this.date.getMonth()}/${this.date.getDay()}/${this.date.getFullYear()}`,
+                time: `${hour}:${minute}`,
+                date: `${month}/${date}/${year}`,
                 tags: document.getElementById('tags').value,
                 post: document.getElementById('posts').value,
                 user: this.cookie.get('id')
@@ -127,12 +130,13 @@ class Curate extends Functions {
             if(data.post !== '' && data.tags !== ''){
                 db.collection('Posts').doc(this.cookie.get('id')).get()
                 .then(p=>{
-                    if(p.exists){
+                    if (p.exists) {
+                        let pC = p.data()['postCount'];
+                        let cC = p.data()['commentCount'];
                         db.collection('Posts').doc(this.cookie.get('id')).update({
                             posts: firebase.firestore.FieldValue.arrayUnion(data),
-                            comment: firebase.firestore.FieldValue.arrayUnion(data),
-                            postCount: +1,
-                            commentCount: +1
+                            postCount: pC+1,
+                            commentCount: cC+1
                         }).then(()=>{
                             document.getElementById('tags').value = ''
                             document.getElementById('posts').value = ''
@@ -200,11 +204,14 @@ class Curate extends Functions {
 
     sendComment = (e,id,user) => {
         e.preventDefault();
+        let [month, date, year] = new Date().toLocaleDateString("en-US").split("/")
+        let [hour, minute] = new Date().toLocaleTimeString("en-US").split(/:| /)
         let data = {
             comment: e.target.elements.com.value,
-            time: `${this.date.getHours()}:${this.date.getMinutes()}:${this.date.getSeconds()}`,
-            date: `${this.date.getMonth()}/${this.date.getDay()}/${this.date.getFullYear()}`,
-            id: id
+            time: `${hour}:${minute}`,
+            date: `${month}/${date}/${year}`,
+            id: id,
+            user: this.cookie.get('id')
         }
         db.collection('Posts').doc(user).update({
             comment: firebase.firestore.FieldValue.arrayUnion(data)

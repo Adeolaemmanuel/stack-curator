@@ -217,7 +217,7 @@ class Curate extends Functions {
                             <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='angry' className='w3-small' style={{ color: theme.textColor }} onClick={e => this.emojiSend(e, `inp${ind}`)}>༼ つ ͠° ͟ ͟ʖ ͡° ༽つ</h3></div>
                         </div>
                         <div className='w3-col s3 m2 l2'>
-                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='triumph' className='w3-small' style={{ color: theme.textColor }} style={{ color: theme.textColor }} onClick={e => this.emojiSend(e, `inp${ind}`)}>(๑•̀ㅂ•́)و</h3></div>
+                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='triumph' className='w3-small' style={{ color: theme.textColor }} onClick={e => this.emojiSend(e, `inp${ind}`)}>(๑•̀ㅂ•́)و</h3></div>
                         </div>
                         <div className='w3-col s3 m2 l2' style={{ cursor: 'pointer' }}><h3 id='hug' className='w3-tiny' style={{ color: theme.textColor }} onClick={e => this.emojiSend(e, `inp${ind}`)}>(づ｡◕‿‿◕｡)づ</h3></div>
                     </div>

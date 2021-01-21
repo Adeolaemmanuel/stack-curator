@@ -187,61 +187,68 @@ class Curate extends Functions {
         }
     }
 
-    emojiSend = (e, id, user) => {
+    emojiSend = (e,inpId) => {
         let emoj = e.target.id
-        document.querySelector('#com').value = document.querySelector(`#${emoj}`).innerHTML
+        let val = document.querySelector(`#${inpId}`).value 
+        if (val) {
+            document.querySelector(`#${inpId}`).value = `${document.querySelector(`#${inpId}`).value} ${document.querySelector(`#${emoj}`).innerHTML}`
+        } else {
+            document.querySelector(`#${inpId}`).value = document.querySelector(`#${emoj}`).innerHTML
+ 
+        }
     }
 
-    comment = (id,user,top,theme) => {
+    comment = (id,user,top,theme, ind) => {
         if(this.cookie.get('id') !== 'anonymous'){
-            return(
-                <form className='w3-container w3-padding' onSubmit={e => { this.sendComment(e, id, user) }}>
-                    <input className='w3-input w3-border w3-round-large' id='com' placeholder='Your Opinoin' />
+            return (
+                <form className='w3-container w3-padding' onSubmit={e => { this.sendComment(e, id, user, `inp${ind}`) }}>
+                    <input className='w3-input w3-border w3-round-large' id={`inp${ind}`} name='com' placeholder='Your Opinoin' />
                     <div className='w3-row-padding'>
                         <div className='w3-col s2 m2 l2'>
-                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='relieved' onClick={e => this.emojiSend(e, id, user)}>&#128524;</h3></div>
+                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='relieved' onClick={e => this.emojiSend(e, `inp${ind}`)}>&#128524;</h3></div>
                         </div>
                         <div className='w3-col s2 m2 l2'>
-                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='dissapoint' onClick={e => this.emojiSend(e, id, user)}>&#128542;</h3></div>
+                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='dissapoint' onClick={e => this.emojiSend(e, `inp${ind}`)}>&#128542;</h3></div>
                         </div>
                         <div className='w3-col s2 m2 l2'>
-                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='worried' onClick={e => this.emojiSend(e, id, user)}>&#128543;</h3></div>
+                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='worried' onClick={e => this.emojiSend(e, `inp${ind}`)}>&#128543;</h3></div>
                         </div>
                         <div className='w3-col s2 m2 l2'>
-                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='angry' onClick={e => this.emojiSend(e, id, user)}>&#128545;</h3></div>
+                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='angry' onClick={e => this.emojiSend(e, `inp${ind}`)}>&#128545;</h3></div>
                         </div>
                         <div className='w3-col s2 m2 l2'>
-                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='triumph' onClick={e => this.emojiSend(e, id, user)}>&#128548;</h3></div>
+                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='triumph' onClick={e => this.emojiSend(e, `inp${ind}`)}>&#128548;</h3></div>
                         </div>
-                        <div className='w3-col s2 m2 l2' style={{ cursor: 'pointer' }}><h3 id='hug' onClick={e => this.emojiSend(e, id, user)}>&#129303;</h3></div>
+                        <div className='w3-col s2 m2 l2' style={{ cursor: 'pointer' }}><h3 id='hug' onClick={e => this.emojiSend(e, `inp${ind}`)}>&#129303;</h3></div>
                     </div>
                     
                     <div className='w3-center w3-hide-large w3-hide-medium'>
                         <button className='w3-btn w3-round w3-margin-top' style={{ backgroundColor: theme.textColor, color: theme.color }} >Comment</button>
                     </div>
-                    <div className='w3-center'>
-                        <a href={`#${top}`} className='w3-text-blue w3-small w3-margin-top w3-bold'>back to top</a>
+                    <div className='w3-center w3-margin-top'>
+                        <a href={`#${top}`} className='w3-text-blue w3-small w3-bold'>back to post</a>
                     </div>
                 </form>
             )
         }
     }
 
-    sendComment = (e,id,user) => {
+    sendComment = (e, id, user, formId) => {
         e.preventDefault();
         let [month, date, year] = new Date().toLocaleDateString("en-US").split("/")
         let [hour, minute] = new Date().toLocaleTimeString("en-US").split(/:| /)
+        console.log(document.querySelector(`#${formId}`).value)
         let data = {
-            comment: e.target.elements.com.value,
+            comment: document.querySelector(`#${formId}`).value,
             time: `${hour}:${minute}`,
             date: `${month}/${date}/${year}`,
             id: id,
             user: this.cookie.get('id')
         }
-   
+
         db.collection('Posts').doc(user).update({
             comment: firebase.firestore.FieldValue.arrayUnion(data)
-        }).then(()=>{
+        }).then(() => {
             e.target.elements.com.value = ''
         })
     }

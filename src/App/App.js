@@ -94,10 +94,10 @@ export default class App extends Component {
   
   commentFilter = (arr,ind,textColor) => {
     if(ind === arr.id){
-      return(
-        <div className='w3-padding w3-small w3-margin-top w3-card w3-round-xlarge  w3-mobile' key={`${ind}`} style={{display:'block', color: textColor}}>
-          <span >{arr.comment}</span>
-        </div>
+        return (
+            <div className='w3-margin-left'>
+              <span className='w3-padding w3-small w3-margin-top w3-card-4 w3-round-xlarge w3-mobile' style={{ display: 'inline-block', color: textColor }}>{arr.comment}</span>
+            </div>
       )
     }
   }
@@ -122,7 +122,7 @@ export default class App extends Component {
               this.state.posts.map((arr,ind)=>{
                 return(
                   <div key={ind}>
-                    <div className='w3-row w3-card w3-round w3-margin-top w3-hover-blue  w3-mobile' onClick={()=>{cu.more(`${ind}C`)}} style={{cursor: 'pointer'}}>
+                    <div className='w3-row w3-card w3-round w3-margin-top w3-hover-blue w3-mobile' onClick={()=>{cu.more(`${ind}C`)}} style={{cursor: 'pointer'}}>
                       <div className='w3-col m6 l6 s6 w3-padding'><p style={{color: this.state.theme.textColor}}>{arr.post}</p></div>
                       <div className='w3-col m6 l6 s6 w3-padding'><p style={{color: this.state.theme.textColor}}>{arr.time}</p></div>
                     </div>

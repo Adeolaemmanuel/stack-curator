@@ -1,9 +1,9 @@
-﻿import React, { Component } from "react"
+﻿import React, { Component } from 'react'
 import bar from '../assets/img/menu.svg'
 import barw from '../assets/img/menuw.svg'
 
 
-export default class Nav extends Component {
+export class Nav extends Component {
 
     constructor(props) {
         super(props)

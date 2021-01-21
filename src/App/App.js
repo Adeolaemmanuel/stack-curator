@@ -33,7 +33,8 @@ export default class App extends Component {
             }
             for (let p in t.data()['comment']) {
                 comment.unshift(t.data()['comment'][p])
-            }
+              }
+              console.log(comment)
             this.setState({posts: post})
             this.setState({comment: comment})
           }
@@ -96,11 +97,12 @@ export default class App extends Component {
     }
   
   
-  commentFilter = (arr,ind,theme) => {
-    if(ind === arr.id){
+    commentFilter = (arr, com, theme) => {
+        console.log(com)
+    if(arr.tag === com.id){
         return (
             <div className='w3-margin-left'>
-                <span className='w3-padding w3-small w3-margin-top w3-card-4 w3-round-xlarge' style={{ display: 'inline-block', color: theme.color, backgroundColor: theme.textColor }}>{arr.comment}</span>
+                <span className='w3-padding w3-small w3-margin-top w3-card-4 w3-round-xlarge' style={{ display: 'inline-block', color: theme.color, backgroundColor: theme.textColor }}>{com.comment}</span>
             </div>
       )
     }
@@ -131,19 +133,19 @@ export default class App extends Component {
                             <div className='w3-col m3 l3 s3 w3-padding'><p style={{ color: this.state.theme.textColor, overflowWrap: 'break-word' }}><span className='w3-margin-right'>{arr.time}</span>{arr.date}</p></div>
                     </div>
 
-                        <div className='w3-hide' id={`${ind}C`} >
-                      {
-                        this.state.comment.map((arr)=>{
-                          return(
-                            this.commentFilter(arr,ind,this.state.theme)
-                          )
-                        })
-                      }
-                      <div id='comment'>
-                                {
-                                    cu.comment(ind, arr.user, this.state.theme)
+                    <div className='w3-hide' id={`${ind}C`} >
+                        {
+                            this.state.comment.map((com)=>{
+                                return (
+                                    this.commentFilter(arr, com, this.state.theme)
+                                )
+                            })
                         }
-                      </div>
+                        <div id='comment'>
+                            {
+                                cu.comment(arr.tag, arr.user, this.state.theme)
+                            }
+                        </div>
                     </div>
                   </div>
                 )

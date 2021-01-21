@@ -114,8 +114,6 @@ class Curate extends Functions {
 
         if(pram === 'post'){
             e.preventDefault()
-            document.getElementById('post').classList.add('w3-hide')
-            document.getElementById('curate').classList.remove('w3-hide')
             let [month, date, year] = new Date().toLocaleDateString("en-US").split("/")
             let [hour, minute] = new Date().toLocaleTimeString("en-US").split(/:| /)
 
@@ -123,37 +121,42 @@ class Curate extends Functions {
             let data = {
                 time: `${hour}:${minute}`,
                 date: `${month}/${date}/${year}`,
-                tags: document.getElementById('tags').value,
+                tag: document.getElementById('tag').value,
                 post: document.getElementById('posts').value,
                 user: this.cookie.get('id')
             }
-            if(data.post !== '' && data.tags !== ''){
-                db.collection('Posts').doc(this.cookie.get('id')).get()
-                .then(p=>{
-                    if (p.exists) {
-                        let pC = p.data()['postCount'];
-                        let cC = p.data()['commentCount'];
-                        db.collection('Posts').doc(this.cookie.get('id')).update({
-                            posts: firebase.firestore.FieldValue.arrayUnion(data),
-                            postCount: pC+1,
-                            commentCount: cC+1
-                        }).then(()=>{
-                            document.getElementById('tags').value = ''
-                            document.getElementById('posts').value = ''
+            if (data.post !== '' && data.tag !== '') {
+                if (/\s/g.test(data.tag) !== true && data.tag.indexOf(',') === -1) {
+                    db.collection('Posts').doc(this.cookie.get('id')).get()
+                        .then(p => {
+                            if (p.exists) {
+                                let pC = p.data()['postCount'];
+                                let cC = p.data()['commentCount'];
+                                db.collection('Posts').doc(this.cookie.get('id')).update({
+                                    posts: firebase.firestore.FieldValue.arrayUnion(data),
+                                    postCount: pC + 1,
+                                    commentCount: cC + 1
+                                }).then(() => {
+                                    document.getElementById('tag').value = ''
+                                    document.getElementById('posts').value = ''
+                                })
+                            } else {
+                                db.collection('Posts').doc(this.cookie.get('id')).set({
+                                    posts: [data],
+                                    comment: [],
+                                    postCount: 1,
+                                    commentCount: 1,
+                                }).then(() => {
+                                    document.getElementById('tags').value = ''
+                                    document.getElementById('posts').value = ''
+                                    document.getElementById('post').classList.add('w3-hide')
+                                    document.getElementById('curate').classList.remove('w3-hide')
+                                })
+                            }
                         })
-                    }else{
-                        console.log(data);
-                        db.collection('Posts').doc(this.cookie.get('id')).set({
-                            posts: [data],
-                            comment: [],
-                            postCount: 1,
-                            commentCount: 1,
-                        }).then(()=>{
-                            document.getElementById('tags').value = ''
-                            document.getElementById('posts').value = ''
-                        })
-                    }
-                })
+                } else {
+                    alert('Not more than one tag allowed')
+                }
             }
         }
     }
@@ -168,7 +171,7 @@ class Curate extends Functions {
                     <div className='w3-padding w3-card-4 w3-round w3-margin-top w3-margin-bottom w3-hide' id='post'>
                         <span className='w3-button w3-padding w3-right w3-margin-bottom' style={{backgroundColor: theme.textColor, color: theme.color}} onClick={()=>{document.getElementById('post').classList.add('w3-hide');document.getElementById('curate').classList.remove('w3-hide')}} >X</span>
                         <form className='w3-margin-top'>
-                            <input className='w3-input w3-border w3-round' type='text' placeholder="Tags" id='tags' />
+                            <input className='w3-input w3-border w3-round' type='text' placeholder="Tag" id='tag' />
                             <textarea className='w3-input w3-border w3-round w3-margin-top' id='posts' placeholder="What's on your mind..."></textarea>
                             <div className=''>
                                 <button className='w3-btn w3-round w3-margin-top' style={{ backgroundColor: theme.textColor, color: theme.color }}  onClick={e=>{cu.postQuestion(e,'post')}}>Send</button>
@@ -213,6 +216,8 @@ class Curate extends Functions {
             id: id,
             user: this.cookie.get('id')
         }
+        console.log(data)
+        db.collection('Posts').doc(user).get()
         db.collection('Posts').doc(user).update({
             comment: firebase.firestore.FieldValue.arrayUnion(data)
         }).then(()=>{

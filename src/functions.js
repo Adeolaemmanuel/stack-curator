@@ -236,18 +236,18 @@ class Curate extends Functions {
                 color: '#161b22',
                 textColor: 'white'
             }
-            return(theme)
             document.body.style.backgroundColor = '#161b22';
+            return(theme)
         }
     }
 
     data
     getPostAndComment = () => {
  
-        db.collection('Admin').doc('Users')
+       db.collection('Admin').doc('Users')
             .onSnapshot(u => {
                 let users = [...u.data().userId]
-                for (let a = 0; a < users.length; a++) {
+                 for (let a = 0; a < users.length; a++) {
                     db.collection('Posts').doc(users[a]).onSnapshot(t => {
                         if (t.exists) {
                             let post = []
@@ -258,13 +258,13 @@ class Curate extends Functions {
                             for (let p in t.data()['comment']) {
                                 comment.unshift(t.data()['comment'][p])
                             }
-                             this.data = { post: post, comment: comment }
+                            this.data = { post: post, comment: comment }
                         }
                     })
-                }
+                 }
                 
             })
-        return (this.data)
+        return(this.data)
     }
 
 }

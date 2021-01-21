@@ -222,6 +222,53 @@ class Curate extends Functions {
         })
     }
 
+    themeCheck = () => {
+        if (localStorage.getItem('theme') === 'light') {
+            let theme = {
+                name: 'Dark',
+                bgColor: '#161b22',
+                color: 'white',
+                textColor: '#161b22'
+            }
+            return(theme)
+        } else if (localStorage.getItem('theme') === 'dark') {
+            let theme = {
+                name: 'Light',
+                bgColor: '#161b22',
+                color: '#161b22',
+                textColor: 'white'
+            }
+            return(theme)
+            document.body.style.backgroundColor = '#161b22';
+        }
+    }
+
+    data
+    getPostAndComment = () => {
+ 
+        db.collection('Admin').doc('Users')
+            .onSnapshot(u => {
+                let users = [...u.data().userId]
+                for (let a = 0; a < users.length; a++) {
+                    db.collection('Posts').doc(users[a]).onSnapshot(t => {
+                        if (t.exists) {
+                            let post = []
+                            let comment = []
+                            for (let p in t.data()['posts']) {
+                                post.unshift(t.data()['posts'][p])
+                            }
+                            for (let p in t.data()['comment']) {
+                                comment.unshift(t.data()['comment'][p])
+                            }
+                             this.data = { post: post, comment: comment }
+                        }
+                    })
+                }
+                
+            })
+        return (this.data)
+    }
+
 }
 
 const cu = new Curate();

@@ -18,53 +18,13 @@ export default class App extends Component {
     }
   }
   
-  cookie = new Cookies();
-  componentDidMount(){
-    db.collection('Admin').doc('Users')
-    .onSnapshot(u=>{
-      let users = [...u.data().userId]
-      for(let a=0; a<users.length; a++){
-        db.collection('Posts').doc(users[a]).onSnapshot(t=>{
-          if(t.exists){
-            let post = []
-            let comment = []
-            for (let p in t.data()['posts']) {
-                post.unshift(t.data()['posts'][p])
-            }
-            for (let p in t.data()['comment']) {
-                comment.unshift(t.data()['comment'][p])
-              }
-              console.log(comment)
-            this.setState({posts: post})
-            this.setState({comment: comment})
-          }
-        })
-      }
-      
-    })
-
-    if(localStorage.getItem('theme') === 'light'){
-      this.setState({
-        theme: {
-          name: 'Dark',
-          bgColor: '#161b22',
-          color: 'white',
-          textColor: '#161b22'
-        }
-      })
-    }else if(localStorage.getItem('theme') === 'dark'){
-      this.setState({
-        theme: {
-          name: 'Light',
-          bgColor: '#161b22',
-          color: '#161b22',
-          textColor: 'white'
-        }
-      })
-      document.body.style.backgroundColor = '#161b22';
-    }
+    cookie = new Cookies();
+    componentDidMount() {
+        this.setState({ posts: cu.getPostAndComment()['post'] })
+        this.setState({ comment: cu.getPostAndComment()['comment'] })
+        this.setState({ theme: cu.themeCheck()})
     
-  }
+    }
 
 
     theme = () => {
@@ -103,12 +63,12 @@ export default class App extends Component {
             <div className='w3-margin-left'>
                 <span className='w3-padding w3-small w3-margin-top w3-card-4 w3-round-xlarge' style={{ display: 'inline-block', color: theme.color, backgroundColor: theme.textColor }}>{com.comment}</span>
             </div>
-      )
+        )
     }
-  }
+    }
 
 
-  render() {
+    render() {
       return (
           <div className='w3-padding' style={{ width: '100%', maxWidth: '100%' }}>
             <Nav theme={this.theme} themeSettings={this.state.theme} />

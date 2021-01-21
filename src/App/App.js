@@ -140,8 +140,8 @@ export default class App extends Component {
                         })
                       }
                       <div id='comment'>
-                        {
-                          cu.comment(ind,arr.user)
+                                {
+                                    cu.comment(ind, arr.user, this.state.theme)
                         }
                       </div>
                     </div>

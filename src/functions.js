@@ -163,7 +163,7 @@ class Curate extends Functions {
             return(
                 <div>
                     <div className='w3-center' id='curate'>
-                        <button className='w3-btn w3-black w3-round w3-margin-top' onClick={e=>{cu.postQuestion(e,'curate')}}>Let out a Sigh</button>
+                        <button className='w3-btn w3-round w3-margin-top' style={{ backgroundColor: theme.textColor, color: theme.color }} onClick={e=>{cu.postQuestion(e,'curate')}}>Let out a Sigh</button>
                     </div>
                     <div className='w3-padding w3-card-4 w3-round w3-margin-top w3-margin-bottom w3-hide' id='post'>
                         <span className='w3-button w3-padding w3-right w3-margin-bottom' style={{backgroundColor: theme.textColor, color: theme.color}} onClick={()=>{document.getElementById('post').classList.add('w3-hide');document.getElementById('curate').classList.remove('w3-hide')}} >X</span>
@@ -189,13 +189,13 @@ class Curate extends Functions {
         }
     }
 
-    comment = (id,user) => {
+    comment = (id,user,theme) => {
         if(this.cookie.get('id') !== 'anonymous'){
             return(
                 <form className='w3-container w3-padding' onSubmit={e=>{this.sendComment(e,id,user)}}>
                     <input className='w3-input w3-border w3-round-large' id='com' placeholder='Your Opinoin' />
                     <div className='w3-center w3-hide-large w3-hide-medium'>
-                        <button className='w3-btn w3-black w3-round w3-margin-top'>Comment</button>
+                        <button className='w3-btn w3-round w3-margin-top' style={{ backgroundColor: theme.textColor, color: theme.color }} >Comment</button>
                     </div>
                 </form>
             )

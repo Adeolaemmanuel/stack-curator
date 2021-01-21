@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import bar from '../assets/img/menu.svg'
 import barw from '../assets/img/menuw.svg'
+import bokMB from '../assets/img/bokMB.svg'
+import bokMW from '../assets/img/bokMW.svg'
 import { Link } from "react-router-dom";
 
 export class Nav extends Component {
@@ -9,15 +11,16 @@ export class Nav extends Component {
         super(props)
         this.state = {
             menuBar: bar,
+            bookmark: bokMB,
         }
     }
 
     componentDidMount() {
         let menuBarCheck = localStorage.getItem('theme')
         if (menuBarCheck === 'light') {
-            this.setState({ menuBar: bar })
+            this.setState({ menuBar: bar, bookmark: bokMB})
         } else if (menuBarCheck === 'dark') {
-            this.setState({ menuBar: barw })
+            this.setState({ menuBar: barw, bookmark: bokMW})
         }
     }
 
@@ -54,10 +57,12 @@ export class Nav extends Component {
                         <div className='w3-col s6 m6 l6'><button className='w3-btn w3-round' style={{ backgroundColor: this.props.themeSettings.textColor, color: this.props.themeSettings.color }} onClick={this.props.theme}>{this.props.themeSettings.name}</button></div>
                     </div>
                     <div className='w3-row w3-bar-item w3-block w3-margin-top'>
-                        <div className='w3-col s6 m6 l6 w3-padding' style={{ color: this.props.themeSettings.textColor }}>Theme</div>
-                        <div className='w3-col s6 m6 l6'>
-                            <Link to='/Bookmark' className='w3-padding w3-margin-top' style={{ color: this.props.themeSettings.textColor }} >Bookmark</Link>
+                        <div className='w3-col s6 m6 l6 w3-padding' style={{ color: this.props.themeSettings.textColor }}>
+                            <img src={this.state.bookmark} onClick={e => this.nav(e, 'open')} alt='bookmark' style={{ width: '40px', height: '40px', color: this.props.themeSettings.color }} />
                         </div>
+                        <div className='w3-col s6 m6 l6 w3-margin-top'>
+                            <Link to='/Bookmark' className='w3-padding w3-bold' style={{ color: this.props.themeSettings.textColor }} >Bookmark</Link>
+                        </div> 
                     </div>
                 </div>
             </div>

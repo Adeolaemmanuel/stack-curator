@@ -167,7 +167,7 @@ class Curate extends Functions {
                         <span className='w3-button w3-padding w3-right w3-margin-bottom' style={{backgroundColor: theme.textColor, color: theme.color}} onClick={()=>{document.getElementById('post').classList.add('w3-hide');document.getElementById('curate').classList.remove('w3-hide')}} >X</span>
                         <form className='w3-margin-top'>
                             <input className='w3-input w3-border w3-round' type='text' placeholder="Tag" id='tags' />
-                            <textarea className='w3-input w3-border w3-round w3-margin-top' id='posts' placeholder="What's on your mind..."></textarea>
+                            <textarea className='w3-input w3-border w3-round w3-margin-top' id='posts' onChange={e => { this.inpuctSize(e) }} placeholder="What's on your mind..."></textarea>
                             <div className=''>
                                 <button className='w3-btn w3-round w3-margin-top' style={{ backgroundColor: theme.textColor, color: theme.color }}  onClick={e=>{cu.postSigh(e,'post')}}>Send</button>
                             </div>
@@ -198,31 +198,28 @@ class Curate extends Functions {
         }
     }
 
+    inpuctSize = (e) => {
+        console.log(e.target.id)
+        let id = document.querySelector(`#${e.target.id}`).value
+        console.log(id.length)
+        if (id.length === 200) {
+            document.querySelector(`#${e.target.id}`).style.height = '100px'
+        }
+    }
+
     comment = (id,user,top,theme, ind) => {
         if(this.cookie.get('id') !== 'anonymous'){
             return (
                 <form className='w3-container w3-padding' onSubmit={e => { this.sendComment(e, id, user, `inp${ind}`) }}>
-                    <input className='w3-input w3-border w3-round-large' id={`inp${ind}`} name='com' placeholder='Your Opinoin' />
+                    <textarea className='w3-input w3-border w3-round-large' id={`inp${ind}`} name='com' placeholder='Aswer their sigh' onChange={e => { this.inpuctSize(e) }} type='text'></textarea>
                     <div className='w3-row-padding'>
                         <div className='w3-col s3 m2 l2'>
-                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='relieved' className='w3-small' style={{ color: theme.textColor }} onClick={e => this.emojiSend(e, `inp${ind}`)}>o((*^▽^*))o</h3></div>
-                        </div>
-                        <div className='w3-col s3 m2 l2'>
-                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='dissapoint' className='w3-small' style={{ color: theme.textColor }} onClick={e => this.emojiSend(e, `inp${ind}`)}>(｡-人-｡)</h3></div>
-                        </div>
-                        <div className='w3-col s3 m2 l2'>
-                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='worried' className='w3-small' style={{ color: theme.textColor }} onClick={e => this.emojiSend(e, `inp${ind}`)}>(,,꒪꒫꒪,,)</h3></div>
-                        </div>
-                        <div className='w3-col s3 m2 l2'>
                             <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='angry' className='w3-small' style={{ color: theme.textColor }} onClick={e => this.emojiSend(e, `inp${ind}`)}>༼ つ ͠° ͟ ͟ʖ ͡° ༽つ</h3></div>
-                        </div>
-                        <div className='w3-col s3 m2 l2'>
-                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='triumph' className='w3-small' style={{ color: theme.textColor }} onClick={e => this.emojiSend(e, `inp${ind}`)}>(๑•̀ㅂ•́)و</h3></div>
                         </div>
                         <div className='w3-col s3 m2 l2' style={{ cursor: 'pointer' }}><h3 id='hug' className='w3-tiny' style={{ color: theme.textColor }} onClick={e => this.emojiSend(e, `inp${ind}`)}>(づ｡◕‿‿◕｡)づ</h3></div>
                     </div>
                     
-                    <div className='w3-center w3-hide-large w3-hide-medium'>
+                    <div className='w3-center'>
                         <button className='w3-btn w3-round w3-margin-top' style={{ backgroundColor: theme.textColor, color: theme.color }} >Comment</button>
                     </div>
                     <div className='w3-center w3-margin-top'>
@@ -237,7 +234,6 @@ class Curate extends Functions {
         e.preventDefault();
         let [month, date, year] = new Date().toLocaleDateString("en-US").split("/")
         let [hour, minute] = new Date().toLocaleTimeString("en-US").split(/:| /)
-        console.log(document.querySelector(`#${formId}`).value)
         let data = {
             comment: document.querySelector(`#${formId}`).value,
             time: `${hour}:${minute}`,
@@ -246,11 +242,13 @@ class Curate extends Functions {
             user: this.cookie.get('id')
         }
 
-        db.collection('Posts').doc(user).update({
-            comment: firebase.firestore.FieldValue.arrayUnion(data)
-        }).then(() => {
-            e.target.elements.com.value = ''
-        })
+        if (data.comment !== "") {
+            db.collection('Posts').doc(user).update({
+                comment: firebase.firestore.FieldValue.arrayUnion(data)
+            }).then(() => {
+                e.target.elements.com.value = ''
+            })
+        }
     }
 
     themeCheck = () => {

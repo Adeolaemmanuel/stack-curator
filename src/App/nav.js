@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import bar from '../assets/img/menu.svg'
 import barw from '../assets/img/menuw.svg'
-
+import { Link } from "react-router-dom";
 
 export class Nav extends Component {
 
@@ -52,6 +52,12 @@ export class Nav extends Component {
                     <div className='w3-row w3-bar-item w3-block w3-margin-top'>
                         <div className='w3-col s6 m6 l6 w3-padding' style={{ color: this.props.themeSettings.textColor }}>Theme</div>
                         <div className='w3-col s6 m6 l6'><button className='w3-btn w3-round' style={{ backgroundColor: this.props.themeSettings.textColor, color: this.props.themeSettings.color }} onClick={this.props.theme}>{this.props.themeSettings.name}</button></div>
+                    </div>
+                    <div className='w3-row w3-bar-item w3-block w3-margin-top'>
+                        <div className='w3-col s6 m6 l6 w3-padding' style={{ color: this.props.themeSettings.textColor }}>Theme</div>
+                        <div className='w3-col s6 m6 l6'>
+                            <Link to='/Bookmark' className='w3-padding w3-margin-top' style={{ color: this.props.themeSettings.textColor }} >Bookmark</Link>
+                        </div>
                     </div>
                 </div>
             </div>

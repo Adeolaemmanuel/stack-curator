@@ -5,6 +5,7 @@ import App from './App/App';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Home from './Home/home';
 import { Cookies } from 'react-cookie'
+import Bookmark from './App/bookmark';
 
 
 export default class Index extends Component {
@@ -21,6 +22,9 @@ export default class Index extends Component {
             </Route>
             <Route path='/App' exact>
               <App />
+            </Route>
+                  <Route path='/Bookmark' exact>
+                      <Bookmark />
             </Route>
           </Router>
         </div>

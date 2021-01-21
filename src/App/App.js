@@ -22,20 +22,22 @@ export default class App extends Component {
         db.collection('Admin').doc('Users')
             .onSnapshot(u => {
                 let users = [...u.data().userId]
+                let post = []
+                let comment = []
                 for (let a = 0; a < users.length; a++) {
                     db.collection('Posts').doc(users[a]).onSnapshot(t => {
                         if (t.exists) {
-                            let post = []
-                            let comment = []
+
                             for (let p in t.data()['posts']) {
                                 post.unshift(t.data()['posts'][p])
-                                this.setState({ posts: post })
                             }
+                            this.setState({ posts: post })
                             for (let p in t.data()['comment']) {
                                 comment.unshift(t.data()['comment'][p])
-                                this.setState({ comment: comment })
                             }
-                            this.data = { post: post, comment: comment }
+                            this.setState({ comment: comment })
+                           let a = { post: post, comment: comment }
+                            console.log(a)
                         }
                     })
                 }

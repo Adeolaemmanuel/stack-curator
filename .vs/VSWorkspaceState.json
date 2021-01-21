@@ -2,7 +2,10 @@
   "ExpandedNodes": [
     "",
     "\\src",
-    "\\src\\App"
+    "\\src\\App",
+    "\\src\\assets",
+    "\\src\\assets\\img",
+    "\\src\\Home"
   ],
   "SelectedNode": "\\src\\App\\nav.js",
   "PreviewInSolutionExplorer": false

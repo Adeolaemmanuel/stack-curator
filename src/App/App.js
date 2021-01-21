@@ -3,7 +3,7 @@ import './App.css';
 import { cu } from '../functions'
 import { db } from "../database"
 import { Cookies } from 'react-cookie'
-import { Nav } from './nav';
+import Nav from './nav';
 export default class App extends Component {
 
   constructor(props) {

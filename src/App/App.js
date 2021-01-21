@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './App.css';
 import { cu } from '../functions'
+import { db } from "../database"
 import { Cookies } from 'react-cookie'
 import { Nav } from './nav';
 

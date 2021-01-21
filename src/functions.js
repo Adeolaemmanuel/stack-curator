@@ -1,5 +1,3 @@
-//import { db } from './database'
-
 import { db, firebase } from "./database"
 import { Cookies } from 'react-cookie'
 

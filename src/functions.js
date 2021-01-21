@@ -204,29 +204,29 @@ class Curate extends Functions {
                 <form className='w3-container w3-padding' onSubmit={e => { this.sendComment(e, id, user, `inp${ind}`) }}>
                     <input className='w3-input w3-border w3-round-large' id={`inp${ind}`} name='com' placeholder='Your Opinoin' />
                     <div className='w3-row-padding'>
-                        <div className='w3-col s2 m2 l2'>
-                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='relieved' onClick={e => this.emojiSend(e, `inp${ind}`)}>&#128524;</h3></div>
+                        <div className='w3-col s3 m2 l2'>
+                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='relieved' className='w3-small' style={{ color: theme.textColor }} onClick={e => this.emojiSend(e, `inp${ind}`)}>o((*^▽^*))o</h3></div>
                         </div>
-                        <div className='w3-col s2 m2 l2'>
-                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='dissapoint' onClick={e => this.emojiSend(e, `inp${ind}`)}>&#128542;</h3></div>
+                        <div className='w3-col s3 m2 l2'>
+                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='dissapoint' className='w3-small' style={{ color: theme.textColor }} onClick={e => this.emojiSend(e, `inp${ind}`)}>(｡-人-｡)</h3></div>
                         </div>
-                        <div className='w3-col s2 m2 l2'>
-                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='worried' onClick={e => this.emojiSend(e, `inp${ind}`)}>&#128543;</h3></div>
+                        <div className='w3-col s3 m2 l2'>
+                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='worried' className='w3-small' style={{ color: theme.textColor }} onClick={e => this.emojiSend(e, `inp${ind}`)}>(,,꒪꒫꒪,,)</h3></div>
                         </div>
-                        <div className='w3-col s2 m2 l2'>
-                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='angry' onClick={e => this.emojiSend(e, `inp${ind}`)}>&#128545;</h3></div>
+                        <div className='w3-col s3 m2 l2'>
+                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='angry' className='w3-small' style={{ color: theme.textColor }} onClick={e => this.emojiSend(e, `inp${ind}`)}>༼ つ ͠° ͟ ͟ʖ ͡° ༽つ</h3></div>
                         </div>
-                        <div className='w3-col s2 m2 l2'>
-                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='triumph' onClick={e => this.emojiSend(e, `inp${ind}`)}>&#128548;</h3></div>
+                        <div className='w3-col s3 m2 l2'>
+                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='triumph' className='w3-small' style={{ color: theme.textColor }} style={{ color: theme.textColor }} onClick={e => this.emojiSend(e, `inp${ind}`)}>(๑•̀ㅂ•́)و</h3></div>
                         </div>
-                        <div className='w3-col s2 m2 l2' style={{ cursor: 'pointer' }}><h3 id='hug' onClick={e => this.emojiSend(e, `inp${ind}`)}>&#129303;</h3></div>
+                        <div className='w3-col s3 m2 l2' style={{ cursor: 'pointer' }}><h3 id='hug' className='w3-tiny' style={{ color: theme.textColor }} onClick={e => this.emojiSend(e, `inp${ind}`)}>(づ｡◕‿‿◕｡)づ</h3></div>
                     </div>
                     
                     <div className='w3-center w3-hide-large w3-hide-medium'>
                         <button className='w3-btn w3-round w3-margin-top' style={{ backgroundColor: theme.textColor, color: theme.color }} >Comment</button>
                     </div>
                     <div className='w3-center w3-margin-top'>
-                        <a href={`#${top}`} className='w3-text-blue w3-small w3-bold'>back to post</a>
+                        <a href={`#${top}`} className='w3-text-blue w3-small w3-bold'>back to sigh</a>
                     </div>
                 </form>
             )

@@ -1,4 +1,4 @@
-﻿import { Component } from "react"
+﻿import React, { Component } from 'react'
 import bar from '../assets/img/menu.svg'
 import barw from '../assets/img/menuw.svg'
 

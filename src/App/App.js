@@ -10,8 +10,8 @@ export default class App extends Component {
     super(props);
     this.state = {
       posts: [],
-        comment: [],
-        theme: { name: '', color: '', bgColor: '', textColor: '', click: this.theme },
+      comment: [],
+      theme: {name: '', color: '', bgColor: '', textColor: ''},
     }
   }
   
@@ -102,8 +102,8 @@ export default class App extends Component {
 
   render() {
       return (
-          <div className='w3-padding' style={{ width: '100%' }}>
-              <Nav themeSettings={this.state.theme } />
+          <div className='w3-padding' style={{ width: '100%', maxWidth: '100%' }}>
+            <Nav theme={this.theme} themeSettings={this.state.theme} />
         <div className='w3-row w3-margin-top '>
           <div className='w3-col m3 l3 w3-hide-small'><br /></div>
           <div className='w3-col s12 m6 l6'>

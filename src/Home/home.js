@@ -27,7 +27,7 @@ export default class home extends Component {
                         
                         <div className='w3-center' id='login'>
                             <div style={{display: 'inline-block', width: '380px', marginTop: '200px'}} className='w3-card-4 w3-white'>
-                                <form className='w3-padding' onSubmit={e => { hm.home(e, 'login') }} className='w3-padding' style={{ width: '100%' }}>
+                                <form className='w3-padding' onSubmit={e => { hm.home(e, 'login') }} style={{ width: '100%', maxWidth: '100%' }}>
                                     <input className='w3-input w3-margin-top' placeholder='Username' id='username' type='text' />
                                     <input className='w3-input w3-margin-top' placeholder='Password' id='password' type='password' />
                                     <button className='w3-black w3-btn w3-padding w3-margin-top w3-margin-bottom w3-round'>Login</button>
@@ -43,8 +43,8 @@ export default class home extends Component {
                         </div>
 
                         <div className='w3-center w3-hide' id='register'>
-                            <div style={{display: 'inline-block', width: '380px', marginTop: '200px'}} className='w3-card-4 w3-white'>
-                                <form className='w3-padding' onSubmit={e => { hm.home(e, 'register') }} className='w3-padding' style={{ width: '100%' }}>
+                            <div style={{ display: 'inline-block', width: '380px', marginTop: '200px' }} className='w3-card-4 w3-white'>
+                                <form className='w3-padding' onSubmit={e => { hm.home(e, 'register') }} style={{ width: '100%', maxWidth: '100%' }}>
                                     <input className='w3-input w3-margin-top' placeholder='Username' id='rusername' type='text' />
                                     <input className='w3-input w3-margin-top' placeholder='Password' id='rpassword' type='password' />
                                     <button className='w3-black w3-btn w3-padding w3-margin-top w3-margin-bottom w3-round'>Register</button>

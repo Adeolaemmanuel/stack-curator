@@ -241,32 +241,6 @@ class Curate extends Functions {
         }
     }
 
-    data
-    getPostAndComment = () => {
- 
-       db.collection('Admin').doc('Users')
-            .onSnapshot(u => {
-                let users = [...u.data().userId]
-                 for (let a = 0; a < users.length; a++) {
-                    db.collection('Posts').doc(users[a]).onSnapshot(t => {
-                        if (t.exists) {
-                            let post = []
-                            let comment = []
-                            for (let p in t.data()['posts']) {
-                                post.unshift(t.data()['posts'][p])
-                            }
-                            for (let p in t.data()['comment']) {
-                                comment.unshift(t.data()['comment'][p])
-                            }
-                            this.data = { post: post, comment: comment }
-                        }
-                    })
-                 }
-                
-            })
-        return(this.data)
-    }
-
 }
 
 const cu = new Curate();

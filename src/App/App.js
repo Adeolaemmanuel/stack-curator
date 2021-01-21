@@ -3,7 +3,7 @@ import './App.css';
 import { cu } from '../functions'
 import { Cookies } from 'react-cookie'
 import { Nav } from './nav';
-
+import { db } from "../database"
 
 
 export default class App extends Component {
@@ -19,8 +19,30 @@ export default class App extends Component {
   
     cookie = new Cookies();
     componentDidMount() {
-        this.setState({ posts: cu.getPostAndComment()['post'] })
-        this.setState({ comment: cu.getPostAndComment()['comment'] })
+        db.collection('Admin').doc('Users')
+            .onSnapshot(u => {
+                let users = [...u.data().userId]
+                for (let a = 0; a < users.length; a++) {
+                    db.collection('Posts').doc(users[a]).onSnapshot(t => {
+                        if (t.exists) {
+                            let post = []
+                            let comment = []
+                            for (let p in t.data()['posts']) {
+                                post.unshift(t.data()['posts'][p])
+                                this.setState({ posts: post })
+                            }
+                            for (let p in t.data()['comment']) {
+                                comment.unshift(t.data()['comment'][p])
+                                this.setState({ comment: comment })
+                            }
+                            this.data = { post: post, comment: comment }
+                        }
+                    })
+                }
+
+            })
+        
+        
         this.setState({ theme: cu.themeCheck()})
     
     }

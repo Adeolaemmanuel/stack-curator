@@ -98,8 +98,7 @@ export default class App extends Component {
   
   
     commentFilter = (arr, com, theme) => {
-        console.log(com)
-    if(arr.tag === com.id){
+    if(arr.id === com.id){
         return (
             <div className='w3-margin-left'>
                 <span className='w3-padding w3-small w3-margin-top w3-card-4 w3-round-xlarge' style={{ display: 'inline-block', color: theme.color, backgroundColor: theme.textColor }}>{com.comment}</span>
@@ -143,7 +142,7 @@ export default class App extends Component {
                         }
                         <div id='comment'>
                             {
-                                cu.comment(arr.tag, arr.user, this.state.theme)
+                                cu.comment(arr.id, arr.user, this.state.theme)
                             }
                         </div>
                     </div>

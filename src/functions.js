@@ -130,7 +130,7 @@ class Curate extends Functions {
                     if(p.exists){
                         db.collection('Posts').doc(this.cookie.get('id')).update({
                             posts: firebase.firestore.FieldValue.arrayUnion(data),
-                            comment: [],
+                            comment: firebase.firestore.FieldValue.arrayUnion(data),
                             postCount: +1,
                             commentCount: +1
                         }).then(()=>{

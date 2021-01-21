@@ -187,11 +187,47 @@ class Curate extends Functions {
         }
     }
 
+    emojiSend = (e, id, user) => {
+        let emoj = e.target.id
+        console.log(emoj)
+        e.preventDefault();
+        let [month, date, year] = new Date().toLocaleDateString("en-US").split("/")
+        let [hour, minute] = new Date().toLocaleTimeString("en-US").split(/:| /)
+        let data = {
+            comment: document.querySelector(`#${emoj}`).innerHTML,
+            time: `${hour}:${minute}`,
+            date: `${month}/${date}/${year}`,
+            id: id,
+            user: this.cookie.get('id')
+        }
+        db.collection('Posts').doc(user).update({
+            comment: firebase.firestore.FieldValue.arrayUnion(data)
+        })
+    }
+
     comment = (id,user,theme) => {
         if(this.cookie.get('id') !== 'anonymous'){
             return(
-                <form className='w3-container w3-padding' onSubmit={e=>{this.sendComment(e,id,user)}}>
+                <form className='w3-container w3-padding' onSubmit={e => { this.sendComment(e, id, user) }}>
                     <input className='w3-input w3-border w3-round-large' id='com' placeholder='Your Opinoin' />
+                    <div className='w3-row-padding'>
+                        <div className='w3-col s2 m2 l2'>
+                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='relieved' onClick={e => this.emojiSend(e, id, user)}>&#128524;</h3></div>
+                        </div>
+                        <div className='w3-col s2 m2 l2'>
+                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='dissapoint' onClick={e => this.emojiSend(e, id, user)}>&#128542;</h3></div>
+                        </div>
+                        <div className='w3-col s2 m2 l2'>
+                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='worried' onClick={e => this.emojiSend(e, id, user)}>&#128543;</h3></div>
+                        </div>
+                        <div className='w3-col s2 m2 l2'>
+                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='angry' onClick={e => this.emojiSend(e, id, user)}>&#128545;</h3></div>
+                        </div>
+                        <div className='w3-col s2 m2 l2'>
+                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='triumph' onClick={e => this.emojiSend(e, id, user)}>&#128548;</h3></div>
+                        </div>
+                        <div className='w3-col s2 m2 l2' style={{ cursor: 'pointer' }}><h3 id='hug' onClick={e => this.emojiSend(e, id, user)}>&#129303;</h3></div>
+                    </div>
                     <div className='w3-center w3-hide-large w3-hide-medium'>
                         <button className='w3-btn w3-round w3-margin-top' style={{ backgroundColor: theme.textColor, color: theme.color }} >Comment</button>
                     </div>
@@ -211,8 +247,7 @@ class Curate extends Functions {
             id: id,
             user: this.cookie.get('id')
         }
-        console.log(data)
-        db.collection('Posts').doc(user).get()
+   
         db.collection('Posts').doc(user).update({
             comment: firebase.firestore.FieldValue.arrayUnion(data)
         }).then(()=>{

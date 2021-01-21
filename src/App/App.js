@@ -82,7 +82,7 @@ export default class App extends Component {
     if(arr.id === com.id){
         return (
             <div className='w3-margin-left' >
-                <span className='w3-padding w3-small w3-margin-top w3-card-4 w3-round-xlarge' style={{ display: 'inline-block', color: theme.color, backgroundColor: theme.textColor }}>{com.comment}</span>
+                <span className='w3-padding w3-small w3-margin-top w3-card-4 w3-round-large' style={{ display: 'inline-block', color: theme.color, backgroundColor: theme.textColor }}>{com.comment}</span>
             </div>
         )
     }

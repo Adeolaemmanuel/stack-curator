@@ -3,6 +3,8 @@ import bar from '../assets/img/menu.svg'
 import barw from '../assets/img/menuw.svg'
 import bokMB from '../assets/img/bokMB.svg'
 import bokMW from '../assets/img/bokMW.svg'
+import setB from '../assets/img/setB.svg'
+import setW from '../assets/img/setW.svg'
 import { Link } from "react-router-dom";
 
 export default class Nav extends Component {
@@ -12,15 +14,16 @@ export default class Nav extends Component {
         this.state = {
             menuBar: bar,
             bookmark: bokMB,
+            settings: setB
         }
     }
 
     componentDidMount() {
         let menuBarCheck = localStorage.getItem('theme')
         if (menuBarCheck === 'light') {
-            this.setState({ menuBar: bar, bookmark: bokMB})
+            this.setState({ menuBar: bar, bookmark: bokMB, settings: setB })
         } else if (menuBarCheck === 'dark') {
-            this.setState({ menuBar: barw, bookmark: bokMW})
+            this.setState({ menuBar: barw, bookmark: bokMW, settings: setW }) 
         }
     }
 
@@ -63,6 +66,14 @@ export default class Nav extends Component {
                         <div className='w3-col s6 m6 l6 w3-margin-top'>
                             <Link to='/Bookmark' className='w3-padding w3-bold' style={{ color: this.props.themeSettings.textColor }} >Bookmark</Link>
                         </div> 
+                    </div>
+                    <div className='w3-row w3-bar-item w3-block w3-margin-top'>
+                        <div className='w3-col s6 m6 l6 w3-padding' style={{ color: this.props.themeSettings.textColor }}>
+                            <img src={this.state.settings} onClick={e => this.nav(e, 'open')} alt='settings' style={{ width: '40px', height: '40px', color: this.props.themeSettings.color }} />
+                        </div>
+                        <div className='w3-col s6 m6 l6 w3-margin-top'>
+                            <Link to='/Bookmark' className='w3-padding w3-bold' style={{ color: this.props.themeSettings.textColor }} >Settings</Link>
+                        </div>
                     </div>
                 </div>
             </div>

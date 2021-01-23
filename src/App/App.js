@@ -14,10 +14,12 @@ export default class App extends Component {
       posts: [],
       comment: [],
       theme: {name: '', color: '', bgColor: '', textColor: ''},
+      buttonPostUpdate: { title: 'Answer their sigh', action: 'post', comId: null, user: null}
     }
   }
   
     cookie = new Cookies();
+    inputId = `${Math.floor(Math.random() * 100)}${Math.floor(Math.random() * 100)}${Math.floor(Math.random() * 100)}`
     componentDidMount() {
         db.collection('Admin').doc('Users')
             .onSnapshot(u => {
@@ -36,8 +38,6 @@ export default class App extends Component {
                                 comment.unshift(t.data()['comment'][p])
                             }
                             this.setState({ comment: comment })
-                           let a = { post: post, comment: comment }
-                            console.log(a)
                         }
                     })
                 }
@@ -78,16 +78,47 @@ export default class App extends Component {
             window.location.reload()
         }
     }
-  
-  
-    commentFilter = (arr, com, theme) => {
-    if(arr.id === com.id){
-        return (
-            <div className='w3-margin-left' >
-                <span className='w3-padding w3-small w3-margin-top w3-card-4 w3-round-large' style={{ display: 'inline-block', color: theme.color, backgroundColor: theme.textColor }}>{com.comment}</span>
-            </div>
-        )
+
+    editSigh = (e, comId,ind,user) => {
+        e.preventDefault();
+        if (this.cookie.get('id') === user) {
+            document.querySelector(`#inp${ind}`).value = this.state.comment[comId].comment
+            this.setState({ buttonPostUpdate: { title: 'Update sigh', action: 'edit', comId, user: user } })
+        } else {
+            alert('Cant edit others sigh')
+        }
+
+
+        /*
+         
+         if (action === 'edit') {
+            console.log(comId)
+            document.querySelector('#modalSightEdit').style.display = 'block'
+            if (this.state.comment[comId].user === user) {
+                document.querySelector(`#update`).value = this.state.comment[comId].comment
+            }
+
+        }
+        if (action === 'close') {
+            document.querySelector('#modalSightEdit').style.display = 'none'
+
+        }
+        if (action === 'update') {
+            
+        }
+         */
     }
+  
+    commentFilter = (arr, com, theme,edt,ind) => {
+        if(arr.id === com.id){
+            return (
+                <>
+                    <div className='w3-margin-left' >
+                        <span className='w3-padding w3-small w3-margin-top w3-card-4 w3-round-large' id={`#edt${edt}`} onDoubleClick={e => this.editSigh(e, edt, ind, com.user)} style={{ display: 'inline-block', color: theme.color, backgroundColor: theme.textColor }}><i>@{com.user}:</i> <br/>{com.comment}</span>
+                    </div>
+                </>
+            )
+        }
     }
 
 
@@ -110,26 +141,32 @@ export default class App extends Component {
               this.state.posts.map((arr,ind)=>{
                 return(
                     <div key={ind} id={`${ind}S`}>
-                    <div className='w3-row w3-card w3-round w3-margin-top w3-hover-blue w3-mobile' onClick={()=>{cu.more(`${ind}C`)}} style={{cursor: 'pointer'}}>
-                            <div className='w3-col m8 l8 s8 w3-padding'><p style={{ color: this.state.theme.textColor }}>{arr.post}</p></div>
-                            <div className='w3-col m3 l3 s3 w3-padding'><p style={{ color: this.state.theme.textColor, overflowWrap: 'break-word' }}><span className='w3-margin-right'>{arr.time}</span>{arr.date}</p></div>
-                    </div>
+                        <div className='w3-row w3-card w3-round w3-margin-top w3-hover-blue w3-mobile' onClick={()=>{cu.more(`${ind}C`)}} style={{cursor: 'pointer'}}>
+                                <div className='w3-col m8 l8 s8 w3-padding'><p style={{ color: this.state.theme.textColor }}>{arr.post}</p></div>
+                                <div className='w3-col m3 l3 s3 w3-padding'><p style={{ color: this.state.theme.textColor, overflowWrap: 'break-word' }}><span className='w3-margin-right'>{arr.time}</span>{arr.date}</p></div>
+                        </div>
 
-                        <div className='w3-hide' id={`${ind}C`}>
-                        {
-                            this.state.comment.map((com)=>{
-                                return (
-                                    this.commentFilter(arr, com, this.state.theme)
-                                )
-                            })
-                        }
-                        <div id='comment'>
+                            <div className='w3-hide' id={`${ind}C`}>
                             {
-                                    cu.comment(arr.id, arr.user, `${ind}S`, this.state.theme, ind)
+                                this.state.comment.map((com,edt)=>{
+                                    return (
+                                        <>
+                                            {
+                                                this.commentFilter(arr, com, this.state.theme, edt, ind)
+                                            }
+                                            
+                                        </>
+                                    )
+                                })
                             }
+                            <div id='comment'>
+                                {
+                                    cu.comment(arr.id, arr.user, `${ind}S`, this.state.theme, ind, this.state.buttonPostUpdate)
+                                    }
+
+                            </div>
                         </div>
                     </div>
-                  </div>
                 )
               })
             }
@@ -137,6 +174,8 @@ export default class App extends Component {
           <div className='w3-col m3 l3' style={{marginTop: '50px'}}>
             
           </div>
+
+            
         </div>
       </div>
     )

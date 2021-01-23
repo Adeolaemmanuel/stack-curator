@@ -168,7 +168,7 @@ class Curate extends Functions {
                         <form className='w3-margin-top'>
                             <input className='w3-input w3-border w3-round' type='text' placeholder="Tag" id='tags' />
                             <textarea className='w3-input w3-border w3-round w3-margin-top' id='posts' onChange={e => { this.inpuctSize(e) }} placeholder="What's on your mind..."></textarea>
-                            <div className=''>
+                            <div className='w3-center'>
                                 <button className='w3-btn w3-round w3-margin-top' style={{ backgroundColor: theme.textColor, color: theme.color }}  onClick={e=>{cu.postSigh(e,'post')}}>Send</button>
                             </div>
                         </form>
@@ -201,17 +201,16 @@ class Curate extends Functions {
     inpuctSize = (e) => {
         console.log(e.target.id)
         let id = document.querySelector(`#${e.target.id}`).value
-        console.log(id.length)
-        if (id.length === 200) {
+        if (id.length === 200 && id.length !== 0) {
             document.querySelector(`#${e.target.id}`).style.height = '100px'
         }
     }
 
-    comment = (id,user,top,theme, ind) => {
+    comment = (id,user,top,theme, ind, postSettings) => {
         if(this.cookie.get('id') !== 'anonymous'){
             return (
-                <form className='w3-container w3-padding' onSubmit={e => { this.sendComment(e, id, user, `inp${ind}`) }}>
-                    <textarea className='w3-input w3-border w3-round-large' id={`inp${ind}`} name='com' placeholder='Aswer their sigh' onChange={e => { this.inpuctSize(e) }} type='text'></textarea>
+                <form className='w3-container w3-padding' onSubmit={e => { this.sendComment(e, id, user, `inp${ind}`, postSettings) }}>
+                    <textarea className='w3-input w3-border w3-round-large' id={`inp${ind}`} name='com' placeholder='Your opinion' onChange={e => { this.inpuctSize(e) }} type='text'></textarea>
                     <div className='w3-row-padding'>
                         <div className='w3-col s3 m2 l2'>
                             <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='angry' className='w3-small' style={{ color: theme.textColor }} onClick={e => this.emojiSend(e, `inp${ind}`)}>༼ つ ͠° ͟ ͟ʖ ͡° ༽つ</h3></div>
@@ -220,7 +219,7 @@ class Curate extends Functions {
                     </div>
                     
                     <div className='w3-center'>
-                        <button className='w3-btn w3-round w3-margin-top' style={{ backgroundColor: theme.textColor, color: theme.color }} >Comment</button>
+                        <button className='w3-btn w3-round w3-margin-top' style={{ backgroundColor: theme.textColor, color: theme.color }} >{postSettings.title}</button>
                     </div>
                     <div className='w3-center w3-margin-top'>
                         <a href={`#${top}`} className='w3-text-blue w3-small w3-bold'>back to sigh</a>
@@ -230,7 +229,7 @@ class Curate extends Functions {
         }
     }
 
-    sendComment = (e, id, user, formId) => {
+    sendComment = (e, id, user, formId, postSettings) => {
         e.preventDefault();
         let [month, date, year] = new Date().toLocaleDateString("en-US").split("/")
         let [hour, minute] = new Date().toLocaleTimeString("en-US").split(/:| /)
@@ -241,13 +240,34 @@ class Curate extends Functions {
             id: id,
             user: this.cookie.get('id')
         }
+        if (postSettings.action === 'post') {
+            if (data.comment !== "") {
+                db.collection('Posts').doc(user).update({
+                    comment: firebase.firestore.FieldValue.arrayUnion(data)
+                }).then(() => {
+                    e.target.elements.com.value = ''
+                })
+            }
+        } else if (postSettings.action === 'edit') {
+            db.collection('Admin').doc('Users')
+                .onSnapshot(u => {
+                    let users = [...u.data().userId]
+                    let comment = []
+                    for (let a = 0; a < users.length; a++) {
+                        db.collection('Posts').doc(users[a]).onSnapshot(t => {
+                            if (t.exists) {
+                                for (let p of t.data()['comment']) {
+                                    comment.unshift(p)
 
-        if (data.comment !== "") {
-            db.collection('Posts').doc(user).update({
-                comment: firebase.firestore.FieldValue.arrayUnion(data)
-            }).then(() => {
-                e.target.elements.com.value = ''
-            })
+                                }
+                                console.log(postSettings)
+                                if (comment[postSettings.comId].user === user) {
+                                    comment[postSettings.comId].comment = data.comment
+                                }
+                            }
+                        })
+                    }
+                })
         }
     }
 
@@ -268,7 +288,7 @@ class Curate extends Functions {
                 textColor: 'white'
             }
             document.body.style.backgroundColor = '#161b22';
-            return(theme)
+                return(theme)
         }
     }
 

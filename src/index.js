@@ -23,8 +23,8 @@ export default class Index extends Component {
             <Route path='/App' exact>
               <App />
             </Route>
-                  <Route path='/Bookmark' exact>
-                      <Bookmark />
+            <Route path='/Bookmark' exact>
+              <Bookmark />
             </Route>
           </Router>
         </div>

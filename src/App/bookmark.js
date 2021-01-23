@@ -55,7 +55,7 @@ export default class Bookmark extends Component {
             <div>
                 <Nav theme={this.theme} themeSettings={this.state.theme} />
                 <div className='w3-row w3-margin-top'>
-                    <div className='w3-col m3 l3 w3-hide-small w3-padding w3-border-right'>
+                    <div className='w3-col m3 l3 w3-hide-small w3-padding w3-border-right' >
                         <form id='bookmark' onSubmit={this.bookmark}>
                             <input type='text' className='w3-input w3-padding' placeholder='Usename' id='bokMP' />
 

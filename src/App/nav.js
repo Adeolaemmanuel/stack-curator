@@ -58,6 +58,9 @@ export default class Nav extends Component {
                     </div>
                 </nav>
                 <div className='w3-sidebar w3-bar-block w3-hide w3-animate-left' id='sidebar' style={{ backgroundColor: this.props.themeSettings.color, position: 'relative', left: '0' }}>
+                    <div className='w3-padding w3-center'>
+                        <span className='w3-padding w3-large w3-bold' onClick={e=>this.nav(e,'close')} style={{ color: this.props.themeSettings.color, cursor: 'pointer', backgroundColor: this.props.themeSettings.textColor }} >X</span>
+                    </div>
                     <div className='w3-row w3-bar-item w3-block w3-margin-top'>
                         <div className='w3-col s6 m6 l6 w3-padding' style={{ color: this.props.themeSettings.textColor }}>Theme</div>
                         <div className='w3-col s6 m6 l6'><button className='w3-btn w3-round' style={{ backgroundColor: this.props.themeSettings.textColor, color: this.props.themeSettings.color }} onClick={this.props.theme}>{this.props.themeSettings.name}</button></div>

@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './App.css';
 import { cu } from '../functions'
 import { Cookies } from 'react-cookie'
-import { Nav } from './nav';
+import Nav from './nav';
 import { db } from "../database"
 
 
@@ -87,26 +87,6 @@ export default class App extends Component {
         } else {
             alert('Cant edit others sigh')
         }
-
-
-        /*
-         
-         if (action === 'edit') {
-            console.log(comId)
-            document.querySelector('#modalSightEdit').style.display = 'block'
-            if (this.state.comment[comId].user === user) {
-                document.querySelector(`#update`).value = this.state.comment[comId].comment
-            }
-
-        }
-        if (action === 'close') {
-            document.querySelector('#modalSightEdit').style.display = 'none'
-
-        }
-        if (action === 'update') {
-            
-        }
-         */
     }
   
     commentFilter = (arr, com, theme,edt,ind) => {

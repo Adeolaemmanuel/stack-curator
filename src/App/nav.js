@@ -5,7 +5,7 @@ import bokMB from '../assets/img/bokMB.svg'
 import bokMW from '../assets/img/bokMW.svg'
 import { Link } from "react-router-dom";
 
-export class Nav extends Component {
+export default class Nav extends Component {
 
     constructor(props) {
         super(props)

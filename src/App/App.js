@@ -105,7 +105,7 @@ export default class App extends Component {
             return (
                 <>
                     <div className='w3-modal' style={{ display: 'block' }}>
-                        <div className='w3-modal-container w3-padding' style={{ backgroundColor: this.state.theme.bgColor }}>
+                        <div className='w3-modal-container w3-padding' style={{ backgroundColor: this.state.theme.color }}>
                             <div className='w3-padding w3-center'>
                                 <span className='w3-padding w3-large w3-bold' onClick={e => this.setState({ optionsModal: false })} style={{ color: this.state.theme.color, cursor: 'pointer', backgroundColor: this.state.theme.textColor }} >X</span>
                             </div>

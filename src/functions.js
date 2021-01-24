@@ -255,9 +255,7 @@ class Curate extends Functions {
                             p.comment = data.comment
                         }
                     }
-
-                    console.log(comment)
-                    db.collection('Sighs').doc('all').update({ comment: comment })
+                    db.collection('Sighs').doc('all').update({ comment: comment }).then(() => {})
                 }
             })
         }

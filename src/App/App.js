@@ -6,19 +6,21 @@ import Nav from './nav';
 import { db } from "../database"
 import editB from '../assets/img/editB.svg'
 import editW from '../assets/img/editW.svg'
+import sighB from '../assets/img/sighB.svg'
+import sighW from '../assets/img/sighW.svg'
 
 export default class App extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      posts: [],
-      comment: [],
-      commentD: '',
-      theme: { name: '', color: '', bgColor: '', textColor: '' },
+        posts: [],
+        comment: [],
+        commentD: '',
+        theme: { name: '', color: '', bgColor: '', textColor: '' },
         optionsModal: false,
         buttonPostUpdate: { title: 'Answer their sigh', action: 'post', comId: null, user: null, ind: null },
-      svg: { edit: editB}
+        svg: { edit: editB, sigh: sighB}
     }
   }
   
@@ -27,9 +29,9 @@ export default class App extends Component {
     componentDidMount() {
         let menuBarCheck = localStorage.getItem('theme')
         if (menuBarCheck === 'light') {
-            this.setState({ svg: {edit: editB} })
+            this.setState({ svg: { edit: editB, sigh: sighB} })
         } else if (menuBarCheck === 'dark') {
-            this.setState({ svg: { edit: editW } })
+            this.setState({ svg: { edit: editW, sigh: sighW } })
         }
         db.collection('Sighs').doc('all').onSnapshot(t => {
             if (t.exists) {
@@ -104,12 +106,18 @@ export default class App extends Component {
                 <>
                     <div className='w3-modal' style={{ display: 'block' }}>
                         <div className='w3-modal-container w3-padding' style={{ backgroundColor: this.state.theme.bgColor }}>
+                            <div className='w3-padding w3-center'>
+                                <span className='w3-padding w3-large w3-bold' onClick={e => this.setState({ optionsModal: false })} style={{ color: this.state.theme.color, cursor: 'pointer', backgroundColor: this.state.theme.textColor }} >X</span>
+                            </div>
                             <div className='w3-center'>
-                                <span className='w3-padding w3-xlarge w3-bold'>OPTIONS</span>
+                                <span className='w3-padding w3-xlarge w3-bold' style={{ color: this.state.theme.textColor }}>OPTIONS</span>
                             </div>
                             <div className='w3-row-padding w3-margin-bottom'>
                                 <div className='w3-col s2 l2 m2 w3-padding'>
-                                    <img src={this.state.svg.edit} alt='edit' className='w3-padding' title='edit' style={{ width: '80px' }} onClick={() => this.editSigh(this.state.buttonPostUpdate.comId, this.state.buttonPostUpdate.user, this.state.buttonPostUpdate.ind, this.state.commentD)} />
+                                    <img src={this.state.svg.sigh} alt='edit' className='w3-padding' title='sigh' style={{ width: '80px' }} onClick={() => this.setState({ buttonPostUpdate: { title: 'Answer their sigh', action: 'post', comId: null, user: null, ind: null }, optionsModal: false })} />
+                                </div>
+                                <div className='w3-col s2 l2 m2 w3-padding'>
+                                    <img src={this.state.svg.edit} alt='edit' className='w3-padding' title='edit' style={{ width: '80px' }} onClick={() => { this.editSigh(this.state.buttonPostUpdate.comId, this.state.buttonPostUpdate.user, this.state.buttonPostUpdate.ind, this.state.commentD); this.setState({ optionsModal: false}) }} />
                                 </div>
                             </div>
                         </div>

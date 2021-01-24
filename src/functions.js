@@ -122,7 +122,6 @@ class Curate extends Functions {
                         if (p.exists) {
                             let pC = [...p.data()['posts']].length;
                             data.id = pC + 1;
-                            let cC = p.data()['commentCount'];
                             db.collection('Sighs').doc('all').update({
                                 posts: firebase.firestore.FieldValue.arrayUnion(data),
                             }).then(() => {

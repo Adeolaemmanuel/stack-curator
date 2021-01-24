@@ -142,7 +142,7 @@ export default class App extends Component {
     }
 
     search = (e) => {
-        let S = e.target.id.value;
+        //let S = e.target.id.value;
         let post = [];
         for (let s of this.state.posts) {
             post.push(s);

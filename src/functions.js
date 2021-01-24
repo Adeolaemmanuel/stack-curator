@@ -47,7 +47,9 @@ class Home extends Functions {
                     if(data.username === x.data().user && data.password === x.data().pass){
                         this.cookie.set('id', data.username)
                         window.location.assign("/App")
-                        localStorage.setItem('theme', 'light')
+                        if (!localStorage.getItem('theme')) {
+                            localStorage.setItem('theme', 'light')
+                        }
                     }
                 }
             })
@@ -60,35 +62,25 @@ class Home extends Functions {
                 password: e.target.elements.rpassword.value,
             }
 
-            db.collection('Users').doc(data.username).set({
-                user: data.username,
-                pass: data.password
-            })
-            .then(()=>{
-                db.collection('Admin').doc('Users').get()
-                .then(c=>{
-                    if(c.exists){
+            db.collection('Admin').doc('Users').get()
+                .then(c => {
+                    if (c.exists) {
                         let all = [c.data().userId]
-                        if(all.indexOf(data.username) === -1){
-                            db.collection('Admin').doc('Users').update({
-                                userId: firebase.firestore.FieldValue.arrayUnion(data.username)
-                            }).then(()=>{
-                                this.cookie.set('id', data.username)
-                                window.location.assign("/App")
-                                localStorage.setItem('theme', 'light')
-                            })
+                        if (all.indexOf(data.username) === -1) {
+                            db.collection('Users').doc(data.username).set(data)
+                                .then(() => {
+                                    db.collection('Admin').doc('Users').update({
+                                        userId: firebase.firestore.FieldValue.arrayUnion(data.username)
+                                    }).then(() => {
+                                        this.cookie.set('id', data.username)
+                                        window.location.assign("/App")
+                                        localStorage.setItem('theme', 'light')
+                                    })
+                                })
+                            
                         }
-                    }else{
-                        db.collection('Admin').doc('Users').set({
-                            userId: [data.username]
-                        }).then(()=>{
-                            this.cookie.set('id', data.username)
-                            window.location.assign("/App")
-                            localStorage.setItem('theme', 'light')
-                        })
                     }
                 })
-            })
         }
     }
 
@@ -122,28 +114,27 @@ class Curate extends Functions {
                 tags: document.getElementById('tags').value,
                 post: document.getElementById('posts').value,
                 user: this.cookie.get('id'),
-                id: `${Math.floor(Math.random() * 4)}${Math.floor(Math.random() * 4)}${Math.floor(Math.random() * 4)}${Math.floor(Math.random() * 4)}${Math.floor(Math.random() * 4)}`
+                id: null
             }
             if (data.post !== '' && data.tag !== '') {
-                db.collection('Posts').doc(this.cookie.get('id')).get()
+                db.collection('Sighs').doc('all').get()
                     .then(p => {
                         if (p.exists) {
-                            let pC = p.data()['postCount'];
+                            let pC = [...p.data()['posts']].length;
+                            data.id = pC + 1;
                             let cC = p.data()['commentCount'];
-                            db.collection('Posts').doc(this.cookie.get('id')).update({
+                            db.collection('Sighs').doc('all').update({
                                 posts: firebase.firestore.FieldValue.arrayUnion(data),
-                                postCount: pC + 1,
-                                commentCount: cC + 1
                             }).then(() => {
                                 document.getElementById('tags').value = ''
                                 document.getElementById('posts').value = ''
+                                document.getElementById('post').classList.add('w3-hide')
+                                document.getElementById('curate').classList.remove('w3-hide')
                             })
                         } else {
-                            db.collection('Posts').doc(this.cookie.get('id')).set({
+                            db.collection('Sighs').doc('all').set({
                                 posts: [data],
                                 comment: [],
-                                postCount: 1,
-                                commentCount: 1,
                             }).then(() => {
                                 document.getElementById('tags').value = ''
                                 document.getElementById('posts').value = ''
@@ -206,10 +197,10 @@ class Curate extends Functions {
         }
     }
 
-    comment = (id,user,top,theme, ind, postSettings) => {
+    comment = (postDetails,commentDetails,goTop,theme, ind, postSettings) => {
         if(this.cookie.get('id') !== 'anonymous'){
             return (
-                <form className='w3-container w3-padding' onSubmit={e => { this.sendComment(e, id, user, `inp${ind}`, postSettings) }}>
+                <form className='w3-container w3-padding' onSubmit={e => { this.sendComment(e, postDetails, commentDetails,  `inp${ind}`, postSettings) }}>
                     <textarea className='w3-input w3-border w3-round-large' id={`inp${ind}`} name='com' placeholder='Your opinion' onChange={e => { this.inpuctSize(e) }} type='text'></textarea>
                     <div className='w3-row-padding'>
                         <div className='w3-col s3 m2 l2'>
@@ -222,14 +213,14 @@ class Curate extends Functions {
                         <button className='w3-btn w3-round w3-margin-top' style={{ backgroundColor: theme.textColor, color: theme.color }} >{postSettings.title}</button>
                     </div>
                     <div className='w3-center w3-margin-top'>
-                        <a href={`#${top}`} className='w3-text-blue w3-small w3-bold'>back to sigh</a>
+                        <a href={`#${goTop}`} className='w3-text-blue w3-small w3-bold'>back to sigh</a>
                     </div>
                 </form>
             )
         }
     }
 
-    sendComment = (e, id, user, formId, postSettings) => {
+    sendComment = (e, postDetails, commentDetails, formId, postSettings) => {
         e.preventDefault();
         let [month, date, year] = new Date().toLocaleDateString("en-US").split("/")
         let [hour, minute] = new Date().toLocaleTimeString("en-US").split(/:| /)
@@ -237,37 +228,38 @@ class Curate extends Functions {
             comment: document.querySelector(`#${formId}`).value,
             time: `${hour}:${minute}`,
             date: `${month}/${date}/${year}`,
-            id: id,
+            postId: postDetails.id,
+            id: null,
             user: this.cookie.get('id')
         }
         if (postSettings.action === 'post') {
             if (data.comment !== "") {
-                db.collection('Posts').doc(user).update({
-                    comment: firebase.firestore.FieldValue.arrayUnion(data)
-                }).then(() => {
-                    e.target.elements.com.value = ''
-                })
+                db.collection('Sighs').doc('all').get()
+                    .then(l => {
+                        let commentLength = [...l.data().comment]
+                        data.id = commentLength.length + 1
+                        db.collection('Sighs').doc('all').update({
+                            comment: firebase.firestore.FieldValue.arrayUnion(data)
+                        }).then(() => {
+                            e.target.elements.com.value = ''
+                        })
+                    })
             }
         } else if (postSettings.action === 'edit') {
-            db.collection('Admin').doc('Users')
-                .onSnapshot(u => {
-                    let users = [...u.data().userId]
-                    let comment = []
-                    for (let a = 0; a < users.length; a++) {
-                        db.collection('Posts').doc(users[a]).onSnapshot(t => {
-                            if (t.exists) {
-                                for (let p of t.data()['comment']) {
-                                    comment.unshift(p)
-
-                                }
-                                console.log(postSettings)
-                                if (comment[postSettings.comId].user === user) {
-                                    comment[postSettings.comId].comment = data.comment
-                                }
-                            }
-                        })
+            let comment = []
+            db.collection('Sighs').doc('all').get().then(t => {
+                if (t.exists) {
+                    for (let p of t.data()['comment']) {
+                        comment.push(p)
+                        if (p.id === commentDetails.id) {
+                            p.comment = data.comment
+                        }
                     }
-                })
+
+                    console.log(comment)
+                    db.collection('Sighs').doc('all').update({ comment: comment })
+                }
+            })
         }
     }
 

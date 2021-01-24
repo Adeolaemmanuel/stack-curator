@@ -4,7 +4,8 @@ import { cu } from '../functions'
 import { Cookies } from 'react-cookie'
 import Nav from './nav';
 import { db } from "../database"
-
+import editB from '../assets/img/editB.svg'
+import editW from '../assets/img/editW.svg'
 
 export default class App extends Component {
 
@@ -13,36 +14,37 @@ export default class App extends Component {
     this.state = {
       posts: [],
       comment: [],
-      theme: {name: '', color: '', bgColor: '', textColor: ''},
-      buttonPostUpdate: { title: 'Answer their sigh', action: 'post', comId: null, user: null}
+      commentD: '',
+      theme: { name: '', color: '', bgColor: '', textColor: '' },
+        optionsModal: false,
+        buttonPostUpdate: { title: 'Answer their sigh', action: 'post', comId: null, user: null, ind: null },
+      svg: { edit: editB}
     }
   }
   
     cookie = new Cookies();
     inputId = `${Math.floor(Math.random() * 100)}${Math.floor(Math.random() * 100)}${Math.floor(Math.random() * 100)}`
     componentDidMount() {
-        db.collection('Admin').doc('Users')
-            .onSnapshot(u => {
-                let users = [...u.data().userId]
-                let post = []
-                let comment = []
-                for (let a = 0; a < users.length; a++) {
-                    db.collection('Posts').doc(users[a]).onSnapshot(t => {
-                        if (t.exists) {
-
-                            for (let p in t.data()['posts']) {
-                                post.unshift(t.data()['posts'][p])
-                            }
-                            this.setState({ posts: post })
-                            for (let p in t.data()['comment']) {
-                                comment.unshift(t.data()['comment'][p])
-                            }
-                            this.setState({ comment: comment })
-                        }
-                    })
+        let menuBarCheck = localStorage.getItem('theme')
+        if (menuBarCheck === 'light') {
+            this.setState({ svg: {edit: editB} })
+        } else if (menuBarCheck === 'dark') {
+            this.setState({ svg: { edit: editW } })
+        }
+        db.collection('Sighs').doc('all').onSnapshot(t => {
+            if (t.exists) {
+                let post = [], comment = []
+                for (let p in t.data()['posts']) {
+                    post.unshift(t.data()['posts'][p])
                 }
-
-            })
+                this.setState({ posts: post })
+                for (let p in t.data()['comment']) {
+                    comment.unshift(t.data()['comment'][p])
+                }
+                this.setState({ comment: comment })
+                this.setState({ post: post })
+            }
+        })
         
         
         this.setState({ theme: cu.themeCheck()})
@@ -79,26 +81,65 @@ export default class App extends Component {
         }
     }
 
-    editSigh = (e, comId,ind,user) => {
-        e.preventDefault();
+    editSigh = (com, user, ind, commentD) => {
         if (this.cookie.get('id') === user) {
-            document.querySelector(`#inp${ind}`).value = this.state.comment[comId].comment
-            this.setState({ buttonPostUpdate: { title: 'Update sigh', action: 'edit', comId, user: user } })
+            db.collection('Sighs').doc('all').get()
+                .then(e => {
+                    let comments = [...e.data().comment]
+                    for (let c of comments) {
+                        if (c.id === com) {
+                            document.querySelector(`#inp${ind}`).value = c.comment;
+                            this.setState({ buttonPostUpdate: { title: 'Update sigh', action: 'edit', comId: com, user: user }, commentD: c, optionsModal: false })
+                        }
+                    }
+                })
         } else {
             alert('Cant edit others sigh')
         }
     }
-  
-    commentFilter = (arr, com, theme,edt,ind) => {
-        if(arr.id === com.id){
+
+    optionsModal = () => {
+        if (this.state.optionsModal) {
             return (
                 <>
-                    <div className='w3-margin-left' >
-                        <span className='w3-padding w3-small w3-margin-top w3-card-4 w3-round-large' id={`#edt${edt}`} onDoubleClick={e => this.editSigh(e, edt, ind, com.user)} style={{ display: 'inline-block', color: theme.color, backgroundColor: theme.textColor }}><i>@{com.user}:</i> <br/>{com.comment}</span>
+                    <div className='w3-modal' style={{ display: 'block' }}>
+                        <div className='w3-modal-container w3-padding' style={{ backgroundColor: this.state.theme.bgColor }}>
+                            <div className='w3-center'>
+                                <span className='w3-padding w3-xlarge w3-bold'>OPTIONS</span>
+                            </div>
+                            <div className='w3-row-padding w3-margin-bottom'>
+                                <div className='w3-col s2 l2 m2 w3-padding'>
+                                    <img src={this.state.svg.edit} alt='edit' className='w3-padding' title='edit' style={{ width: '80px' }} onClick={() => this.editSigh(this.state.buttonPostUpdate.comId, this.state.buttonPostUpdate.user, this.state.buttonPostUpdate.ind, this.state.commentD)} />
+                                </div>
+                            </div>
+                        </div>
                     </div>
+                </>
+                )
+        }
+    }
+  
+    commentFilter = (arr, com, theme, edt, ind) => {
+        if (arr.id === com.postId) {
+            return (
+                <>
+                    
+                    <div className='w3-margin-left' >
+                        <span className='w3-padding w3-small w3-margin-top w3-card-4 w3-round-large' id={`#edt${edt}`} onDoubleClick={() => this.setState({ optionsModal: true, buttonPostUpdate: { title: 'Answer their sigh', action: 'post', comId: com.id, user: com.user, ind: ind } })} style={{ display: 'inline-block', color: theme.color, backgroundColor: theme.textColor }}><i>@{com.user}:</i> <br />{com.comment}</span>
+                    </div>
+                    
                 </>
             )
         }
+    }
+
+    search = (e) => {
+        let S = e.target.id.value;
+        let post = [];
+        for (let s of this.state.posts) {
+            post.push(s);
+        }
+        console.log(post)
     }
 
 
@@ -110,13 +151,13 @@ export default class App extends Component {
           <div className='w3-col m3 l3 w3-hide-small'><br /></div>
           <div className='w3-col s12 m6 l6'>
             <form className=''>
-              <input type='search' placeholder='Search' id='search' className='w3-input w3-border w3-round w3-margin-top search w3-mobile' />
+                <input type='search' placeholder='Search' id='search' className='w3-input w3-border w3-round w3-margin-top search w3-mobile' onChange={this.search} />
             </form>
 
             {
               cu.post(this.state.theme)
             }
-
+                      
             {
               this.state.posts.map((arr,ind)=>{
                 return(
@@ -134,18 +175,20 @@ export default class App extends Component {
                                             {
                                                 this.commentFilter(arr, com, this.state.theme, edt, ind)
                                             }
-                                            
                                         </>
                                     )
                                 })
                             }
-                            <div id='comment'>
-                                {
-                                    cu.comment(arr.id, arr.user, `${ind}S`, this.state.theme, ind, this.state.buttonPostUpdate)
+                                <div id='comment'>
+                                    {
+                                        cu.comment(arr,this.state.commentD, `${ind}S`, this.state.theme, ind, this.state.buttonPostUpdate)
                                     }
-
-                            </div>
+                                </div>
+                            
                         </div>
+                        {
+                            this.optionsModal()
+                        }
                     </div>
                 )
               })

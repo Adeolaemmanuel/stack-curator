@@ -100,6 +100,10 @@ export default class App extends Component {
         }
     }
 
+    functionState = (name,data) => {
+        this.setState({[name]: data})
+    }
+
     optionsModal = () => {
         if (this.state.optionsModal) {
             return (
@@ -113,9 +117,6 @@ export default class App extends Component {
                                 <span className='w3-padding w3-xlarge w3-bold' style={{ color: this.state.theme.textColor }}>OPTIONS</span>
                             </div>
                             <div className='w3-row-padding w3-margin-bottom'>
-                                <div className='w3-col s2 l2 m2 w3-padding'>
-                                    <img src={this.state.svg.sigh} alt='edit' className='w3-padding' title='sigh' style={{ width: '80px' }} onClick={() => this.setState({ buttonPostUpdate: { title: 'Answer their sigh', action: 'post', comId: null, user: null, ind: null }, optionsModal: false })} />
-                                </div>
                                 <div className='w3-col s2 l2 m2 w3-padding'>
                                     <img src={this.state.svg.edit} alt='edit' className='w3-padding' title='edit' style={{ width: '80px' }} onClick={() => { this.editSigh(this.state.buttonPostUpdate.comId, this.state.buttonPostUpdate.user, this.state.buttonPostUpdate.ind, this.state.commentD); this.setState({ optionsModal: false}) }} />
                                 </div>
@@ -188,8 +189,8 @@ export default class App extends Component {
                                 })
                             }
                                 <div id='comment'>
-                                    {
-                                        cu.comment(arr,this.state.commentD, `${ind}S`, this.state.theme, ind, this.state.buttonPostUpdate)
+                                {
+                                    cu.comment(arr, this.state.commentD, `${ind}S`, this.state.theme, ind, this.state.buttonPostUpdate, this.functionState)
                                     }
                                 </div>
                             

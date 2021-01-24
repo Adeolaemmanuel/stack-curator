@@ -94,6 +94,9 @@ class Home extends Functions {
 const hm = new Home();
 
 class Curate extends Functions {
+    setState = (name,data) => {
+        return ({[name]: data})
+    }
 
     postSigh = (e,pram) =>{
         e.preventDefault();
@@ -196,10 +199,10 @@ class Curate extends Functions {
         }
     }
 
-    comment = (postDetails,commentDetails,goTop,theme, ind, postSettings) => {
+    comment = (postDetails,commentDetails,goTop,theme, ind, postSettings, state) => {
         if(this.cookie.get('id') !== 'anonymous'){
             return (
-                <form className='w3-container w3-padding' onSubmit={e => { this.sendComment(e, postDetails, commentDetails,  `inp${ind}`, postSettings) }}>
+                <form className='w3-container w3-padding' onSubmit={e => { this.sendComment(e, postDetails, commentDetails,  `inp${ind}`, postSettings,state) }}>
                     <textarea className='w3-input w3-border w3-round-large' id={`inp${ind}`} name='com' placeholder='Your opinion' onChange={e => { this.inpuctSize(e) }} type='text'></textarea>
                     <div className='w3-row-padding'>
                         <div className='w3-col s3 m2 l2'>
@@ -219,7 +222,7 @@ class Curate extends Functions {
         }
     }
 
-    sendComment = (e, postDetails, commentDetails, formId, postSettings) => {
+    sendComment = (e, postDetails, commentDetails, formId, postSettings,state) => {
         e.preventDefault();
         let [month, date, year] = new Date().toLocaleDateString("en-US").split("/")
         let [hour, minute] = new Date().toLocaleTimeString("en-US").split(/:| /)
@@ -254,7 +257,10 @@ class Curate extends Functions {
                             p.comment = data.comment
                         }
                     }
-                    db.collection('Sighs').doc('all').update({ comment: comment }).then(() => {})
+                    db.collection('Sighs').doc('all').update({ comment: comment }).then(() => {
+                        e.target.elements.com.value = ''
+                        state('buttonPostUpdate', { title: 'Answer their sigh', action: 'post', comId: null, user: null, ind: null })
+                    })
                 }
             })
         }

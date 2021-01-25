@@ -33,6 +33,11 @@ export default class App extends Component {
         } else if (menuBarCheck === 'dark') {
             this.setState({ svg: { edit: editW, sigh: sighW } })
         }
+        this.getPostComment()   
+        this.setState({ theme: cu.themeCheck()})
+    }
+
+    getPostComment = () => {
         db.collection('Sighs').doc('all').onSnapshot(t => {
             if (t.exists) {
                 let post = [], comment = []
@@ -47,10 +52,6 @@ export default class App extends Component {
                 this.setState({ post: post })
             }
         })
-        
-        
-        this.setState({ theme: cu.themeCheck()})
-    
     }
 
 
@@ -143,13 +144,20 @@ export default class App extends Component {
     }
 
     search = (e) => {
-        //let S = e.target.id.value;
-        let post = [];
-        for (let s of this.state.posts) {
-            post.push(s);
+        let S = e.target.value.toLowerCase()
+        let post = [...this.state.posts];
+        let result = []
+        for (let s in post) {
+            if (post[s].post.toLowerCase().includes(S) && S !== "") {
+                result.push(post[s])
+            } else if (S === "") {
+                this.getPostComment()
+            }
         }
-        console.log(post)
+        this.setState({ posts: result })
+        
     }
+        
 
 
     render() {

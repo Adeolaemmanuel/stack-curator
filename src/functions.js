@@ -205,10 +205,10 @@ class Curate extends Functions {
                 <form className='w3-container w3-padding' onSubmit={e => { this.sendComment(e, postDetails, commentDetails,  `inp${ind}`, postSettings,state) }}>
                     <textarea className='w3-input w3-border w3-round-large' id={`inp${ind}`} name='com' placeholder='Your opinion' onChange={e => { this.inpuctSize(e) }} type='text'></textarea>
                     <div className='w3-row-padding'>
-                        <div className='w3-col s3 m2 l2'>
-                            <div className='w3-rest' style={{ cursor: 'pointer' }}><h3 id='angry' className='w3-small' style={{ color: theme.textColor }} onClick={e => this.emojiSend(e, `inp${ind}`)}>༼ つ ͠° ͟ ͟ʖ ͡° ༽つ</h3></div>
+                        <div className='w3-col s6 m6 l6'>
+                            <div className='w3-right' style={{ cursor: 'pointer' }}><h3 id='angry' className='w3-small w3-padding' style={{ color: theme.textColor }} onClick={e => this.emojiSend(e, `inp${ind}`)}>༼ つ ͠° ͟ ͟ʖ ͡° ༽つ</h3></div>
                         </div>
-                        <div className='w3-col s3 m2 l2' style={{ cursor: 'pointer' }}><h3 id='hug' className='w3-tiny' style={{ color: theme.textColor }} onClick={e => this.emojiSend(e, `inp${ind}`)}>(づ｡◕‿‿◕｡)づ</h3></div>
+                        <div className='w3-col s6 m6 l6' style={{ cursor: 'pointer' }}><h3 id='hug' className='w3-small w3-padding' style={{ color: theme.textColor }} onClick={e => this.emojiSend(e, `inp${ind}`)}>(づ｡◕‿‿◕｡)づ</h3></div>
                     </div>
                     
                     <div className='w3-center'>

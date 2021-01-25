@@ -150,7 +150,7 @@ export default class App extends Component {
         for (let s in post) {
             if (post[s].post.toLowerCase().includes(S) && S !== "") {
                 result.push(post[s])
-            } else if (S === "") {
+            } if (S === "") {
                 this.getPostComment()
             }
         }

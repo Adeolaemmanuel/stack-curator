@@ -128,6 +128,7 @@ class Curate extends Functions {
                 tags: document.getElementById('tags').value,
                 post: document.getElementById('posts').value,
                 user: this.cookie.get('id'),
+                comCount: 0,
                 id: null
             }
             if (data.post !== '' && data.tag !== '') {
@@ -250,6 +251,15 @@ class Curate extends Functions {
                     .then(l => {
                         let commentLength = [...l.data().comment]
                         data.id = commentLength.length + 1
+                        let post = [...l.data().posts]
+                        for(let p of post) {
+                            if(p.id === postDetails.id){
+                                p.comCount +=1
+                                db.collection('Sighs').doc('all').update({
+                                    posts: post
+                                })
+                            }
+                        }
                         db.collection('Sighs').doc('all').update({
                             comment: firebase.firestore.FieldValue.arrayUnion(data)
                         }).then(() => {

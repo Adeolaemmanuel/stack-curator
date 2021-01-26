@@ -98,6 +98,18 @@ class Curate extends Functions {
         return ({[name]: data})
     }
 
+    formatAMPM(date) {
+        let hours = date.getHours();
+        let minutes = date.getMinutes();
+        let ampm = hours >= 12 ? 'pm' : 'am';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0' + minutes : minutes;
+        let strTime = hours + ':' + minutes + ' ' + ampm;
+        return strTime;
+    }
+
+
     postSigh = (e,pram) =>{
         e.preventDefault();
         if(pram === 'curate'){
@@ -108,11 +120,10 @@ class Curate extends Functions {
         if(pram === 'post'){
             e.preventDefault()
             let [month, date, year] = new Date().toLocaleDateString("en-US").split("/")
-            let [hour, minute] = new Date().toLocaleTimeString("en-US").split(/:| /)
 
 
             let data = {
-                time: `${hour}:${minute}`,
+                time: this.formatAMPM(new Date()),
                 date: `${month}/${date}/${year}`,
                 tags: document.getElementById('tags').value,
                 post: document.getElementById('posts').value,
@@ -225,10 +236,9 @@ class Curate extends Functions {
     sendComment = (e, postDetails, commentDetails, formId, postSettings,state) => {
         e.preventDefault();
         let [month, date, year] = new Date().toLocaleDateString("en-US").split("/")
-        let [hour, minute] = new Date().toLocaleTimeString("en-US").split(/:| /)
         let data = {
             comment: document.querySelector(`#${formId}`).value,
-            time: `${hour}:${minute}`,
+            time: this.formatAMPM(new Date()),
             date: `${month}/${date}/${year}`,
             postId: postDetails.id,
             id: null,

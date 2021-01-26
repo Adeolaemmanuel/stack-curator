@@ -20,12 +20,13 @@ export default class App extends Component {
         theme: { name: '', color: '', bgColor: '', textColor: '' },
         optionsModal: false,
         buttonPostUpdate: { title: 'Answer their sigh', action: 'post', comId: null, user: null, ind: null },
-        svg: { edit: editB, sigh: sighB}
+        svg: { edit: editB, sigh: sighB},
     }
   }
   
     cookie = new Cookies();
     inputId = `${Math.floor(Math.random() * 100)}${Math.floor(Math.random() * 100)}${Math.floor(Math.random() * 100)}`
+
     componentDidMount() {
         let menuBarCheck = localStorage.getItem('theme')
         if (menuBarCheck === 'light') {
@@ -33,7 +34,7 @@ export default class App extends Component {
         } else if (menuBarCheck === 'dark') {
             this.setState({ svg: { edit: editW, sigh: sighW } })
         }
-        this.getPostComment()   
+        this.getPostComment()
         this.setState({ theme: cu.themeCheck()})
     }
 
@@ -54,6 +55,7 @@ export default class App extends Component {
         })
     }
 
+    
 
     theme = () => {
         let color = localStorage.getItem('theme')
@@ -128,13 +130,13 @@ export default class App extends Component {
                 )
         }
     }
-  
+
     commentFilter = (arr, com, theme, edt, ind) => {
         if (arr.id === com.postId) {
             return (
                 <>
                     
-                    <div className='w3-margin-left' >
+                    <div className='w3-margin-left'>
                         <span className='w3-padding w3-small w3-margin-top w3-card-4 w3-round-large' id={`#edt${edt}`} onDoubleClick={() => this.setState({ optionsModal: true, buttonPostUpdate: { title: 'Answer their sigh', action: 'post', comId: com.id, user: com.user, ind: ind } })} style={{ display: 'inline-block', color: theme.color, backgroundColor: theme.textColor }}><i>@{com.user}:</i> <br />{com.comment}</span>
                     </div>
                     
@@ -179,9 +181,10 @@ export default class App extends Component {
               this.state.posts.map((arr,ind)=>{
                 return(
                     <div key={ind} id={`${ind}S`}>
-                        <div className='w3-row w3-card w3-round w3-margin-top w3-hover-blue w3-mobile' onClick={()=>{cu.more(`${ind}C`)}} style={{cursor: 'pointer'}}>
-                                <div className='w3-col m8 l8 s8 w3-padding'><p style={{ color: this.state.theme.textColor }}>{arr.post}</p></div>
-                                <div className='w3-col m3 l3 s3 w3-padding'><p style={{ color: this.state.theme.textColor, overflowWrap: 'break-word' }}><span className='w3-margin-right'>{arr.time}</span>{arr.date}</p></div>
+                        <div className='w3-row w3-card w3-round w3-margin-top w3-hover-blue w3-mobile' onClick={() => { cu.more(`${ind}C`) }} style={{ cursor: 'pointer' }}>
+                            <div className='w3-padding'><p style={{ color: this.state.theme.textColor }}>__{arr.user}: <br />{arr.post}</p></div>
+                            <div className='w3-col m6 l6 s6 w3-padding' style={{ color: this.state.theme.textColor }} ></div>
+                            <div className='w3-col m6 l6 s6 w3-padding'><p style={{ color: this.state.theme.textColor, overflowWrap: 'break-word' }}><span className='w3-margin-right'>{arr.time}</span>{arr.date}</p></div>
                         </div>
 
                             <div className='w3-hide' id={`${ind}C`}>

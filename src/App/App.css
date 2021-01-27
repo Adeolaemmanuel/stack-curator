@@ -68,3 +68,9 @@
   .slider.round:before {
     border-radius: 50%;
   }
+
+  .top{
+      position: fixed;
+      right: 0;
+      bottom: 0;
+  }

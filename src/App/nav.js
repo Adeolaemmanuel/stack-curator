@@ -11,7 +11,7 @@ import upB from '../assets/img/upB.svg'
 import upW from '../assets/img/upW.svg'
 import { Link } from "react-router-dom";
 import { Cookies } from 'react-cookie'
-
+import './App.css'
 export default class Nav extends Component {
 
     constructor(props) {
@@ -57,9 +57,6 @@ export default class Nav extends Component {
                     <div className='w3-bar-item '>
                         <img src={this.state.menuBar} onClick={e => this.nav(e, 'open')} alt='menu' style={{ width: '40px', height: '40px', color: this.props.themeSettings.color }} />
                     </div>
-                    <a href='#top' className='w3-bar-item w3-right'>
-                        <img src={this.state.up} alt='up' style={{width: '40px', height: '40px'}} />
-                    </a>
                     <div className='w3-center'>
                         <h4 className='w3-bold' style={{ color: this.props.themeSettings.textColor }}>A CURATOR SIGHS</h4>
                     </div>
@@ -108,6 +105,9 @@ export default class Nav extends Component {
                         </div>
                     </div>
                 </div>
+                <a href='#top' className='w3-padding top'>
+                    <img src={this.state.up} alt='up' style={{width: '50px', height: '50px'}} />
+                </a>
             </div>
         )
     }

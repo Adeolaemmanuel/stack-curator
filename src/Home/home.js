@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './home.css'
-import { fn, hm } from '../functions'
+import {  hm } from '../functions'
 import any from '../assets/img/anonymous.svg'
 
 export default class home extends Component {
@@ -14,7 +14,7 @@ export default class home extends Component {
     
 
     componentDidMount(){
-        fn.mobileSettings('r')
+        
     }
 
     

@@ -12,11 +12,32 @@ class Functions {
 
     mobileSettings = (pram) =>{
         if(window.matchMedia("(max-width: 767px)").matches){
-            
+            return true
+        }else{
+            return false
         }
     }
 
-    
+    themeCheck = () => {
+        if (localStorage.getItem('theme') === 'light') {
+            let theme = {
+                name: 'Dark',
+                bgColor: '#161b22',
+                color: 'white',
+                textColor: '#161b22'
+            }
+            return(theme)
+        } else if (localStorage.getItem('theme') === 'dark') {
+            let theme = {
+                name: 'Light',
+                bgColor: '#161b22',
+                color: '#161b22',
+                textColor: 'white'
+            }
+            document.body.style.backgroundColor = '#161b22';
+                return(theme)
+        }
+    }
 }
 
 const fn = new Functions();
@@ -44,7 +65,7 @@ class Home extends Functions {
             db.collection('Users').doc(data.username).get()
             .then(x=>{
                 if(x.exists){
-                    if(data.username === x.data().user && data.password === x.data().pass){
+                    if(data.username === x.data().username && data.password === x.data().password){
                         this.cookie.set('id', data.username)
                         window.location.assign("/App")
                         if (!localStorage.getItem('theme')) {
@@ -65,7 +86,7 @@ class Home extends Functions {
             db.collection('Admin').doc('Users').get()
                 .then(c => {
                     if (c.exists) {
-                        let all = [c.data().userId]
+                        let all = [...c.data().userId]
                         if (all.indexOf(data.username) === -1) {
                             db.collection('Users').doc(data.username).set(data)
                                 .then(() => {
@@ -77,7 +98,8 @@ class Home extends Functions {
                                         localStorage.setItem('theme', 'light')
                                     })
                                 })
-                            
+                        }else{
+                            alert('Sigher Exist')
                         }
                     }
                 })
@@ -286,29 +308,35 @@ class Curate extends Functions {
         }
     }
 
-    themeCheck = () => {
-        if (localStorage.getItem('theme') === 'light') {
-            let theme = {
-                name: 'Dark',
-                bgColor: '#161b22',
-                color: 'white',
-                textColor: '#161b22'
-            }
-            return(theme)
-        } else if (localStorage.getItem('theme') === 'dark') {
-            let theme = {
-                name: 'Light',
-                bgColor: '#161b22',
-                color: '#161b22',
-                textColor: 'white'
-            }
-            document.body.style.backgroundColor = '#161b22';
-                return(theme)
-        }
-    }
-
 }
 
 const cu = new Curate();
 
-export { fn, cu, hm }
+class Bookmark extends Functions {
+    bookmark = (e) => {
+        e.preventDefault();
+        db.collection('Admin').doc('Users').get()
+        .then(u=>{
+            if(u.exists) {
+                let users = [...u.data().userId]
+                if(users.indexOf(e.target.elements.bokMP.value) !== -1) {
+                    db.collection('Bookmark').doc(this.cookies.get('id')).get()
+                    .then(g=>{
+                        if(g.exists) {
+                            db.collection('Bookmark').doc(this.cookies.get('id')).update({
+                                bookmark: firebase.firestore.FieldValue.arrayUnion(e.target.elements.bokMP.value)
+                            })
+                        }else {
+                            db.collection('Bookmark').doc(this.cookies.get('id')).set({
+                                bookmark: [e.target.elements.bokMP.value]
+                            }).then(()=>{e.target.elements.bokMP.value = ""})
+                        }
+                    })                   
+                }
+            }
+        })
+    }
+}
+
+const bm = new Bookmark();
+export { fn, cu, hm, bm }

@@ -80,11 +80,11 @@ class Home extends Functions {
             e.preventDefault();
             let data = {
                 username: e.target.elements.rusername.value,
-                password: e.target.elements.rpassword.value,
+                password: e.target.elements.rpassword.value.toUpperCase(),
                 hint: true,
                 bookmarkmed: 0,
             }
-
+            console.log(data);
             db.collection('Admin').doc('Users').get()
                 .then(c => {
                     if (c.exists) {

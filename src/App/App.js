@@ -21,7 +21,7 @@ export default class App extends Component {
         optionsModal: false,
         buttonPostUpdate: { title: 'Answer their sigh', action: 'post', comId: null, user: null, ind: null },
         svg: { edit: editB, sigh: sighB},
-        hint: true,
+        hint: null,
     }
   }
   
@@ -43,6 +43,7 @@ export default class App extends Component {
         this.setState({ theme: cu.themeCheck()})
         
     }
+    componentDidCatch
 
     getPostComment = () => {
         db.collection('Sighs').doc('all').onSnapshot(t => {

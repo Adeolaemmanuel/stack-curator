@@ -5,6 +5,8 @@ import Nav from "./nav"
 import { Cookies } from 'react-cookie'
 import editB from '../assets/img/editB.svg'
 import editW from '../assets/img/editW.svg'
+import trashB from '../assets/img/trashB.svg'
+import trashW from '../assets/img/trashW.svg'
 
 
 export default class Bookmark extends Component {
@@ -17,6 +19,7 @@ export default class Bookmark extends Component {
             comment: [],
             buttonPostUpdate: { title: 'Answer their sigh', action: 'post', comId: null, user: null, ind: null },
             optionsModal: false,
+            svg: { edit: editB, trash: trashB},
         }
     }
 
@@ -25,9 +28,9 @@ export default class Bookmark extends Component {
         this.getBookmark()
         let menuBarCheck = localStorage.getItem('theme')
         if (menuBarCheck === 'light') {
-            this.setState({ svg: { edit: editB} })
+            this.setState({ svg: { edit: editB, trash: trashB} })
         } else if (menuBarCheck === 'dark') {
-            this.setState({ svg: { edit: editW } })
+            this.setState({ svg: { edit: editW, trash: trashW } })
         }
     }
 
@@ -63,7 +66,7 @@ export default class Bookmark extends Component {
     }
 
     editSigh = (com, user, ind, commentD) => {
-        if (this.cookies.get('id') === user) {
+        if (this.cookie.get('id') === user) {
             db.collection('Sighs').doc('all').get()
                 .then(e => {
                     let comments = [...e.data().comment]
@@ -138,7 +141,14 @@ export default class Bookmark extends Component {
                                     this.state.bookmaredSighers.map(arr=>{
                                         return(
                                             <>
-                                                <button id={arr} onClick={this.selectSighers} className='w3-btn w3-round w3-block w3-margin-top' style={{ backgroundColor: this.state.theme.textColor, color: this.state.theme.color }}>{arr}</button>
+                                                <div className='w3-row'>
+                                                    <div className='w3-col s10 m7 l7'>
+                                                        <button id={arr} onClick={this.selectSighers} className='w3-btn w3-round w3-block w3-margin-top' style={{ backgroundColor: this.state.theme.textColor, color: this.state.theme.color }}>{arr}</button>
+                                                    </div>
+                                                    <div className='w3-rest'>
+                                                        <img className='w3-padding w3-xlarge' src={this.state.svg.trash} alt='trash' style={{width: '60px', height: '60px'}} />
+                                                    </div>
+                                                </div>
                                             </>
                                         )
                                     })
@@ -160,7 +170,14 @@ export default class Bookmark extends Component {
                                     this.state.bookmaredSighers.map(arr=>{
                                         return(
                                             <>
-                                                <button id={arr} onClick={this.selectSighers} className='w3-btn w3-round w3-block w3-margin-top' style={{ backgroundColor: this.state.theme.textColor, color: this.state.theme.color }}>{arr}</button>
+                                                <div className='w3-row'>
+                                                    <div className='w3-col s10 m9 l9'>
+                                                        <button id={arr} onClick={this.selectSighers} className='w3-btn w3-round w3-block w3-margin-top' style={{ backgroundColor: this.state.theme.textColor, color: this.state.theme.color }}>{arr}</button>
+                                                    </div>
+                                                    <div className='w3-rest'>
+                                                        <img className='w3-padding w3-xlarge w3-right' src={this.state.svg.trash} alt='trash' style={{width: '65px', height: '65px'}} />
+                                                    </div>
+                                                </div>
                                             </>
                                         )
                                     })

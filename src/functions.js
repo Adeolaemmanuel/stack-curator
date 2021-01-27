@@ -81,7 +81,8 @@ class Home extends Functions {
             let data = {
                 username: e.target.elements.rusername.value,
                 password: e.target.elements.rpassword.value,
-                hint: true
+                hint: true,
+                bookmarkmed: 0,
             }
 
             db.collection('Admin').doc('Users').get()
@@ -326,6 +327,14 @@ class Bookmark extends Functions {
                         if(g.exists) {
                             db.collection('Bookmark').doc(this.cookies.get('id')).update({
                                 bookmark: firebase.firestore.FieldValue.arrayUnion(e.target.elements.bokMP.value)
+                            }).then(()=>{
+                                db.collection('Bookmark').doc(e.target.elements.bokMP.value).get()
+                                .then(b=>{
+                                    let count = b.data().bookmarked +1
+                                    db.collection('Bookmark').doc(e.target.elements.bokMP.value)
+                                    .update({bookmarked: count})
+                                })
+                                
                             })
                         }else {
                             db.collection('Bookmark').doc(this.cookies.get('id')).set({

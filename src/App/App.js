@@ -37,6 +37,10 @@ export default class App extends Component {
         }
         this.getPostComment()
         this.setState({ theme: cu.themeCheck()})
+        db.collection('Users').doc(this.cookie.get('id')).get()
+        .then(e=>{
+            this.setState({hint: e.data().hint})
+        })
     }
 
     getPostComment = () => {

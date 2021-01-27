@@ -33,6 +33,19 @@ export default class Index extends Component {
           </Router>
         </div>
       )
+    }else if(this.cookies.get('id') === 'anonymous'){
+      return(
+        <div>
+          <Router>
+            <Route path='/' exact>
+              <Home />
+            </Route>
+            <Route path='/App' exact>
+              <App />
+            </Route>
+          </Router>
+        </div>
+      )
     }
     return (
       <div>

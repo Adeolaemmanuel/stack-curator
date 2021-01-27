@@ -353,8 +353,9 @@ class Bookmark extends Functions {
 
 const bm = new Bookmark();
 class Settings extends Functions {
+    cookie = new Cookies();
     helpModal = (state,theme,func) => {
-        if(state){
+        if(state && this.cookie.get('id') !== 'anonymous'){
             return(
                 <>
                     <div className='w3-modal' style={{display: 'block'}}>
@@ -367,6 +368,7 @@ class Settings extends Functions {
                                 <h2 className='w3-center w3-margin-top w3-margin-bottom' style={{ color: theme.textColor }}>Welcome to the curators sigh</h2>
                                 <p style={{ color: theme.textColor }}>This guide will help you on things you should know about this site and how you can use it effectively</p>
                                 <ol style={{ color: theme.textColor }}>
+                                    <li>To stop seeing this notification go to settings and turn it off</li>
                                     <li>To edit you comment double click on your comment and an option pop up menu will appear</li>
                                 </ol>
                             </div>

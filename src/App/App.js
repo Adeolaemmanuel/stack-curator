@@ -147,13 +147,15 @@ export default class App extends Component {
 
     search = (e) => {
         let S = e.target.value.toLowerCase()
+        console.log(S.length);
         let post = [...this.state.posts];
         let result = []
+        if (S.length === 0) {
+            this.getPostComment()
+        }
         for (let s in post) {
             if (post[s].post.toLowerCase().includes(S) && S !== "") {
                 result.push(post[s])
-            } if (S === "") {
-                this.getPostComment()
             }
         }
         this.setState({ posts: result })
@@ -188,24 +190,24 @@ export default class App extends Component {
                         </div>
 
                             <div className='w3-hide' id={`${ind}C`}>
-                            {
-                                this.state.comment.map((com,edt)=>{
-                                    return (
-                                        <>
-                                            {
-                                                this.commentFilter(arr, com, this.state.theme, edt, ind)
-                                            }
-                                        </>
-                                    )
-                                })
-                            }
-                                <div id='comment'>
                                 {
-                                    cu.comment(arr, this.state.commentD, `${ind}S`, this.state.theme, ind, this.state.buttonPostUpdate, this.functionState)
-                                    }
-                                </div>
-                            
-                        </div>
+                                    this.state.comment.map((com,edt)=>{
+                                        return (
+                                            <>
+                                                {
+                                                    this.commentFilter(arr, com, this.state.theme, edt, ind)
+                                                }
+                                            </>
+                                        )
+                                    })
+                                }
+                                    <div id='comment'>
+                                    {
+                                        cu.comment(arr, this.state.commentD, `${ind}S`, this.state.theme, ind, this.state.buttonPostUpdate, this.functionState)
+                                        }
+                                    </div>
+                                
+                            </div>
                         {
                             this.optionsModal()
                         }

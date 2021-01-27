@@ -81,6 +81,7 @@ class Home extends Functions {
             let data = {
                 username: e.target.elements.rusername.value,
                 password: e.target.elements.rpassword.value,
+                hint: true
             }
 
             db.collection('Admin').doc('Users').get()
@@ -339,4 +340,31 @@ class Bookmark extends Functions {
 }
 
 const bm = new Bookmark();
-export { fn, cu, hm, bm }
+class Settings extends Functions {
+    helpModal = (state,theme,func) => {
+        if(state){
+            return(
+                <>
+                    <div className='w3-modal' style={{display: 'block'}}>
+                        <div className='w3-modal-container w3-padding' style={{ color: theme.color, backgroundColor: theme.color }}>
+                            <div className='w3-padding w3-center'>
+                                <span className='w3-padding w3-large w3-bold' onClick={e => func('hint',false)} style={{ color: theme.color, cursor: 'pointer', backgroundColor: theme.textColor }} >X</span>
+                            </div>
+
+                            <div className='w3-padding w3-container w3-margin-top w3-center'>
+                                <h2 className='w3-center w3-margin-top w3-margin-bottom' style={{ color: theme.textColor }}>Welcome to the curators sigh</h2>
+                                <p style={{ color: theme.textColor }}>This guide will help you on things you should know about this site and how you can use it effectively</p>
+                                <ol style={{ color: theme.textColor }}>
+                                    <li>To edit you comment double click on your comment and an option pop up menu will appear</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )
+        }
+    }
+}
+
+const st = new Settings();
+export { fn, cu, hm, bm, st }

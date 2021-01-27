@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import './App.css';
-import { cu } from '../functions'
+import { cu,st } from '../functions'
 import { Cookies } from 'react-cookie'
 import Nav from './nav';
 import { db } from "../database"
@@ -21,6 +21,7 @@ export default class App extends Component {
         optionsModal: false,
         buttonPostUpdate: { title: 'Answer their sigh', action: 'post', comId: null, user: null, ind: null },
         svg: { edit: editB, sigh: sighB},
+        hint: true,
     }
   }
   
@@ -210,6 +211,9 @@ export default class App extends Component {
                             </div>
                         {
                             this.optionsModal()
+                        }
+                        {
+                            st.helpModal(this.state.hint,this.state.theme,this.functionState)
                         }
                     </div>
                 )

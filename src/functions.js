@@ -96,6 +96,9 @@ class Home extends Functions {
                                         userId: firebase.firestore.FieldValue.arrayUnion(data.username)
                                     }).then(() => {
                                         this.cookie.set('id', data.username)
+                                        db.collection('Bookmark').doc(this.cookies.get('id')).set({
+                                            bookmark: [data.username]
+                                        })
                                         window.location.assign("/App")
                                         localStorage.setItem('theme', 'light')
                                     })

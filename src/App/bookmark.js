@@ -85,7 +85,7 @@ export default class Bookmark extends Component {
     getBookmark = () => {
         db.collection('Bookmark').doc(this.cookies.get('id')).onSnapshot(b=>{
             if(b.exists){
-                this.setState({bookmaredSighers: [`${this.cookies.get('id')}`,...b.data().bookmark]})
+                this.setState({bookmaredSighers: [...b.data().bookmark]})
             }
         })
         
@@ -109,7 +109,7 @@ export default class Bookmark extends Component {
     }
 
     selectSighers = (e,type) => {
-        if(type === 'add'){
+        if(type === 'view'){
             db.collection('Sighs').doc('all').onSnapshot(s=>{
                 if(s.exists){
                     let post = []
@@ -125,37 +125,50 @@ export default class Bookmark extends Component {
         }else if(type === 'del'){
             db.collection('Bookmark').doc(this.cookies.get('id')).get()
             .then(b=>{
-                let all = [...b.data().bookmark]
                 if(e.target.id !== this.cookies.get('id')){
-                    let ind = all.indexOf(e.target.id)
-                    all.splice((ind-1), ind)
                     if(b.exists){
+                        let all = [...b.data().bookmark]
+                        let ind = all.indexOf(e.target.id)
+                        all.splice(ind)
+                        console.log(all);
                         db.collection('Bookmark').doc(this.cookies.get('id')).update({
                             bookmark: all
                         }).then(()=>{
                             db.collection('Users').doc(this.cookies.get('id')).get()
                             .then(b=>{
-                                let count = b.data().bookmarked -1
+                                let count 
+                                if(b.data().bookmarked !== 0){
+                                    count = b.data().bookmarked -1
+                                }else{
+                                    count = 0
+                                }
                                 db.collection('Users').doc(this.cookies.get('id'))
                                 .update({bookmarked: count})
                             })
                         })
                     }
+                }else{
+                    alert('You cant delete yourself')
                 }
             })
             db.collection('Bookmark').doc(e.target.id).get()
             .then(b=>{
-                let all = [...b.data().bookmark]
                 if(e.target.id !== this.cookies.get('id')){
-                    let ind = all.indexOf(this.cookies.get('id'))
-                    all.splice((ind-1), ind)
                     if(b.exists){
+                        let all = [...b.data().bookmark]
+                        let ind = all.indexOf(this.cookies.get('id'))
+                        all.splice((ind-1), ind)
                         db.collection('Bookmark').doc(e.target.id).update({
                             bookmark: all
                         }).then(()=>{
                             db.collection('Users').doc(e.target.id).get()
                             .then(b=>{
-                                let count = b.data().bookmarked -1
+                                let count 
+                                if(b.data().bookmarked !==0){
+                                    count = b.data().bookmarked -1
+                                }else{
+                                    count = 0
+                                }
                                 db.collection('Users').doc(e.target.id)
                                 .update({bookmarked: count})
                             })
@@ -187,10 +200,10 @@ export default class Bookmark extends Component {
                                             <>
                                                 <div className='w3-row'>
                                                     <div className='w3-col s10 m7 l7'>
-                                                        <button id={arr} onClick={(e)=>this.selectSighers(e,'add')} className='w3-btn w3-round w3-block w3-margin-top' style={{ backgroundColor: this.state.theme.textColor, color: this.state.theme.color }}>{arr}</button>
+                                                        <button id={arr} onClick={(e)=>this.selectSighers(e,'view')} className='w3-btn w3-round w3-block w3-margin-top' style={{ backgroundColor: this.state.theme.textColor, color: this.state.theme.color }}>{arr}</button>
                                                     </div>
                                                     <div className='w3-rest'>
-                                                        <img className='w3-padding w3-xlarge' id={`${arr}D`} onClick={(e)=>this.selectSighers(e,'del')} src={this.state.svg.trash} alt='trash' style={{width: '60px', height: '60px', cursor: 'pointer'}} />
+                                                        <img className='w3-padding w3-xlarge' id={`${arr}`} onClick={(e)=>this.selectSighers(e,'del')} src={this.state.svg.trash} alt='trash' style={{width: '60px', height: '60px', cursor: 'pointer'}} />
                                                     </div>
                                                 </div>
                                             </>
@@ -216,10 +229,10 @@ export default class Bookmark extends Component {
                                             <>
                                                 <div className='w3-row'>
                                                     <div className='w3-col s10 m9 l9'>
-                                                        <button id={arr} onClick={this.selectSighers} className='w3-btn w3-round w3-block w3-margin-top' style={{ backgroundColor: this.state.theme.textColor, color: this.state.theme.color }}>{arr}</button>
+                                                        <button id={arr} onClick={e=>this.selectSighers(e,'view')} className='w3-btn w3-round w3-block w3-margin-top' style={{ backgroundColor: this.state.theme.textColor, color: this.state.theme.color }}>{arr}</button>
                                                     </div>
                                                     <div className='w3-rest'>
-                                                        <img className='w3-padding w3-xlarge w3-right' id={`${arr}D`} onClick={(e)=>this.selectSighers(e,'del')} src={this.state.svg.trash} alt='trash' style={{width: '65px', height: '65px', cursor: 'pointer'}} />
+                                                        <img className='w3-padding w3-xlarge w3-right' id={`${arr}`} onClick={(e)=>this.selectSighers(e,'del')} src={this.state.svg.trash} alt='trash' style={{width: '65px', height: '65px', cursor: 'pointer'}} />
                                                     </div>
                                                 </div>
                                             </>

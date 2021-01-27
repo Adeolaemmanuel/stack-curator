@@ -80,6 +80,21 @@ export default class Settings extends Component {
                 <div className='w3-row-padding'>
                     <div className='w3-col s6 m6 l6 w3-padding'>
                         <h2 style={{color: this.state.theme.textColor}}>Hint</h2>
+
+                        <div className='w3-row'>
+                            <div className='w3-col s6 m6 l6 w3-border w3-round'>
+                                <div className='w3-center w3-margin-top'>
+                                    <span className='w3-padding w3-large w3-bold' style={{ backgroundColor: this.state.theme.textColor, color: this.state.theme.color }}>Update Profile</span>
+                                </div>
+                                <form className='w3-padding w3-container w3-margin-top'>
+                                    <input className='w3-input w3-padding w3-margin-top w3-round w3-border' type='text' id='username' placeholder='Username' />
+                                    <input className='w3-input w3-padding w3-margin-top w3-round w3-border' type='text' id='password' placeholder='Password' />
+                                    <div className='w3-center'>
+                                        <button className='w3-padding w3-margin-top w3-round w3-btn' style={{ backgroundColor: this.state.theme.textColor, color: this.state.theme.color }}>Update</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                     <div className='w3-col s6 m6 l6 w3-padding w3-margin-top'>
                         <label className="switch w3-right w3-margin-right">

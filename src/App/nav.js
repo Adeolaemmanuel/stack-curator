@@ -8,6 +8,7 @@ import setW from '../assets/img/setW.svg'
 import sighB from '../assets/img/sighB.svg'
 import sighW from '../assets/img/sighW.svg'
 import { Link } from "react-router-dom";
+import { Cookies } from 'react-cookie'
 
 export default class Nav extends Component {
 
@@ -87,6 +88,17 @@ export default class Nav extends Component {
                         </div>
                         <div className='w3-col s6 m6 l6 w3-margin-top'>
                             <Link to='/Settings' className='w3-padding w3-bold' style={{ color: this.props.themeSettings.textColor }} >Settings</Link>
+                        </div>
+                    </div>
+
+                    <div className='w3-bar-item w3-block w3-margin-top'>
+                        <div className='w3-row w3-center'>
+                            <div className='w3-col s6 m6 l6'>
+                                <h6 style={{ color: this.props.themeSettings.textColor }} ><code>Username: </code></h6>
+                            </div>
+                            <div className='w3-col s6 m6 l6'>
+                                <h6><code style={{ color: this.props.themeSettings.textColor }} >{new Cookies().get('id')}</code></h6>
+                            </div>
                         </div>
                     </div>
                 </div>

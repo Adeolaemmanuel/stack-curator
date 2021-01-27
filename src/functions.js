@@ -328,10 +328,10 @@ class Bookmark extends Functions {
                             db.collection('Bookmark').doc(this.cookies.get('id')).update({
                                 bookmark: firebase.firestore.FieldValue.arrayUnion(e.target.elements.bokMP.value)
                             }).then(()=>{
-                                db.collection('Bookmark').doc(e.target.elements.bokMP.value).get()
+                                db.collection('Users').doc(e.target.elements.bokMP.value).get()
                                 .then(b=>{
                                     let count = b.data().bookmarked +1
-                                    db.collection('Bookmark').doc(e.target.elements.bokMP.value)
+                                    db.collection('Users').doc(e.target.elements.bokMP.value)
                                     .update({bookmarked: count})
                                 })
                                 

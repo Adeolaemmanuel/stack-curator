@@ -108,18 +108,62 @@ export default class Bookmark extends Component {
         })
     }
 
-    selectSighers = (e) => {
-        db.collection('Sighs').doc('all').onSnapshot(s=>{
-            if(s.exists){
-                let post = []
-                for(let p of s.data().posts){
-                    if(p.user === e.target.id){
-                        post.unshift(p)
-                        console.log(post);
+    selectSighers = (e,type) => {
+        if(type === 'add'){
+            db.collection('Sighs').doc('all').onSnapshot(s=>{
+                if(s.exists){
+                    let post = []
+                    for(let p of s.data().posts){
+                        if(p.user === e.target.id){
+                            post.unshift(p)
+                            console.log(post);
+                        }
+                    }
+                    this.setState({posts: post})
+                }
+            })
+        }else if(type === 'del'){
+            db.collection('Bookmark').doc(this.cookies.get('id')).get()
+            .then(b=>{
+                let all = [...b.data().bookmark]
+                if(e.target.id !== this.cookies.get('id')){
+                    let ind = all.indexOf(e.target.id)
+                    all.splice((ind-1), ind)
+                    if(b.exists){
+                        db.collection('Bookmark').doc(this.cookies.get('id')).update({
+                            bookmark: all
+                        }).then(()=>{
+                            db.collection('Users').doc(this.cookies.get('id')).get()
+                            .then(b=>{
+                                let count = b.data().bookmarked -1
+                                db.collection('Users').doc(this.cookies.get('id'))
+                                .update({bookmarked: count})
+                            })
+                        })
                     }
                 }
-            }
-        })
+            })
+            db.collection('Bookmark').doc(e.target.id).get()
+            .then(b=>{
+                let all = [...b.data().bookmark]
+                if(e.target.id !== this.cookies.get('id')){
+                    let ind = all.indexOf(this.cookies.get('id'))
+                    all.splice((ind-1), ind)
+                    if(b.exists){
+                        db.collection('Bookmark').doc(e.target.id).update({
+                            bookmark: all
+                        }).then(()=>{
+                            db.collection('Users').doc(e.target.id).get()
+                            .then(b=>{
+                                let count = b.data().bookmarked -1
+                                db.collection('Users').doc(e.target.id)
+                                .update({bookmarked: count})
+                            })
+                        })
+                    }
+                }
+            })
+        }
     }
 
     sighersBookmark = () => {
@@ -143,10 +187,10 @@ export default class Bookmark extends Component {
                                             <>
                                                 <div className='w3-row'>
                                                     <div className='w3-col s10 m7 l7'>
-                                                        <button id={arr} onClick={this.selectSighers} className='w3-btn w3-round w3-block w3-margin-top' style={{ backgroundColor: this.state.theme.textColor, color: this.state.theme.color }}>{arr}</button>
+                                                        <button id={arr} onClick={(e)=>this.selectSighers(e,'add')} className='w3-btn w3-round w3-block w3-margin-top' style={{ backgroundColor: this.state.theme.textColor, color: this.state.theme.color }}>{arr}</button>
                                                     </div>
                                                     <div className='w3-rest'>
-                                                        <img className='w3-padding w3-xlarge' src={this.state.svg.trash} alt='trash' style={{width: '60px', height: '60px'}} />
+                                                        <img className='w3-padding w3-xlarge' id={`${arr}D`} onClick={(e)=>this.selectSighers(e,'del')} src={this.state.svg.trash} alt='trash' style={{width: '60px', height: '60px', cursor: 'pointer'}} />
                                                     </div>
                                                 </div>
                                             </>
@@ -175,7 +219,7 @@ export default class Bookmark extends Component {
                                                         <button id={arr} onClick={this.selectSighers} className='w3-btn w3-round w3-block w3-margin-top' style={{ backgroundColor: this.state.theme.textColor, color: this.state.theme.color }}>{arr}</button>
                                                     </div>
                                                     <div className='w3-rest'>
-                                                        <img className='w3-padding w3-xlarge w3-right' src={this.state.svg.trash} alt='trash' style={{width: '65px', height: '65px'}} />
+                                                        <img className='w3-padding w3-xlarge w3-right' id={`${arr}D`} onClick={(e)=>this.selectSighers(e,'del')} src={this.state.svg.trash} alt='trash' style={{width: '65px', height: '65px', cursor: 'pointer'}} />
                                                     </div>
                                                 </div>
                                             </>

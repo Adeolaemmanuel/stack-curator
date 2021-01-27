@@ -14,7 +14,7 @@ export default class Index extends Component {
 
   cookies = new Cookies();
   render() {
-    if(this.cookies.get('id')){
+    if(this.cookies.get('id') && this.cookies.get('id') !== 'anonymous'){
       return(
         <div>
           <Router>

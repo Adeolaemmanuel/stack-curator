@@ -7,6 +7,8 @@ import setB from '../assets/img/setB.svg'
 import setW from '../assets/img/setW.svg'
 import sighB from '../assets/img/sighB.svg'
 import sighW from '../assets/img/sighW.svg'
+import upB from '../assets/img/upB.svg'
+import upW from '../assets/img/upW.svg'
 import { Link } from "react-router-dom";
 import { Cookies } from 'react-cookie'
 
@@ -19,15 +21,16 @@ export default class Nav extends Component {
             bookmark: bokMB,
             settings: setB,
             sigh: sighB,
+            up: upB
         }
     }
 
     componentDidMount() {
         let menuBarCheck = localStorage.getItem('theme')
         if (menuBarCheck === 'light') {
-            this.setState({ menuBar: bar, bookmark: bokMB, settings: setB, sigh: sighB })
+            this.setState({ menuBar: bar, bookmark: bokMB, settings: setB, sigh: sighB, up: upB })
         } else if (menuBarCheck === 'dark') {
-            this.setState({ menuBar: barw, bookmark: bokMW, settings: setW, sigh: sighW }) 
+            this.setState({ menuBar: barw, bookmark: bokMW, settings: setW, sigh: sighW, up: upW }) 
         }
     }
 
@@ -54,6 +57,9 @@ export default class Nav extends Component {
                     <div className='w3-bar-item '>
                         <img src={this.state.menuBar} onClick={e => this.nav(e, 'open')} alt='menu' style={{ width: '40px', height: '40px', color: this.props.themeSettings.color }} />
                     </div>
+                    <a href='#top' className='w3-bar-item w3-right'>
+                        <img src={this.state.up} alt='up' style={{width: '40px', height: '40px'}} />
+                    </a>
                     <div className='w3-center'>
                         <h4 className='w3-bold' style={{ color: this.props.themeSettings.textColor }}>A CURATOR SIGHS</h4>
                     </div>

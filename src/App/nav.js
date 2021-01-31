@@ -67,7 +67,7 @@ export default class Nav extends Component {
                     </div>
                     <div className='w3-row w3-bar-item w3-block w3-margin-top'>
                         <div className='w3-col s6 m6 l6 w3-padding' style={{ color: this.props.themeSettings.textColor }}>Theme</div>
-                        <div className='w3-col s6 m6 l6'><button className='w3-btn w3-round' style={{ backgroundColor: this.props.themeSettings.textColor, color: this.props.themeSettings.color }} onClick={this.props.theme}>{this.props.themeSettings.name}</button></div>
+                        <div className='w3-col s6 m6 l6'><button className='w3-btn w3-round' style={{ backgroundColor: this.props.themeSettings.textColor, color: this.props.themeSettings.color }} onClick={()=>{this.props.theme(); this.componentDidMount();document.querySelector('#sidebar').classList.add('w3-hide')}}>{this.props.themeSettings.name}</button></div>
                     </div>
                     <div className='w3-row w3-bar-item w3-block w3-margin-top'>
                         <div className='w3-col s6 m6 l6 w3-padding' style={{ color: this.props.themeSettings.textColor }}>

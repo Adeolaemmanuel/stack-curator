@@ -325,10 +325,10 @@ class Bookmark extends Functions {
             if(u.exists) {
                 let users = [...u.data().userId]
                 if(users.indexOf(e.target.elements.bokMP.value) !== -1) {
-                    db.collection('Bookmark').doc(this.cookies.get('id')).get()
+                    db.collection('Bookmark').doc(this.cookie.get('id')).get()
                     .then(g=>{
                         if(g.exists) {
-                            db.collection('Bookmark').doc(this.cookies.get('id')).update({
+                            db.collection('Bookmark').doc(this.cookie.get('id')).update({
                                 bookmark: firebase.firestore.FieldValue.arrayUnion(e.target.elements.bokMP.value)
                             }).then(()=>{
                                 db.collection('Users').doc(e.target.elements.bokMP.value).get()

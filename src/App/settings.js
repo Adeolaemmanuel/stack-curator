@@ -49,7 +49,7 @@ export default class Settings extends Component {
             })
             localStorage.setItem('theme', 'light')
             document.body.style.backgroundColor = 'white';
-            this.getPostComment()
+            this.componentDidMount()
         }
     }
 

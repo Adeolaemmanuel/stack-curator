@@ -17,20 +17,18 @@ export default class Nav extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            up: upB,
             menuBar: bar,
-            bookmark: bokMB,
-            settings: setB,
-            sigh: sighB,
-            up: upB
+            links: [{to: 'App', name: 'Sighs',img: sighB},{to: 'Bookmark', name: 'Bookmark', img: bokMB},{to: 'Settings', name: 'Settings',img: setB}]
         }
     }
 
     componentDidMount() {
         let menuBarCheck = localStorage.getItem('theme')
         if (menuBarCheck === 'light') {
-            this.setState({ menuBar: bar, bookmark: bokMB, settings: setB, sigh: sighB, up: upB })
+            this.setState({ links: [{to: 'App', name: 'Sighs',img: sighB},{to: 'Bookmark', name: 'Bookmark', img: bokMB},{to: 'Settings', name: 'Settings',img: setB}], up: upB, menuBar: bar })
         } else if (menuBarCheck === 'dark') {
-            this.setState({ menuBar: barw, bookmark: bokMW, settings: setW, sigh: sighW, up: upW }) 
+            this.setState({ links: [{to: 'App', name: 'Sighs',img: sighW},{to: 'Bookmark', name: 'Bookmark', img: bokMW},{to: 'Settings', name: 'Settings',img: setW}], up: upW,  menuBar: barw  }) 
         }
     }
 
@@ -69,30 +67,23 @@ export default class Nav extends Component {
                         <div className='w3-col s6 m6 l6 w3-padding' style={{ color: this.props.themeSettings.textColor }}>Theme</div>
                         <div className='w3-col s6 m6 l6'><button className='w3-btn w3-round' style={{ backgroundColor: this.props.themeSettings.textColor, color: this.props.themeSettings.color }} onClick={()=>{this.props.theme(); this.componentDidMount(); document.querySelector('#sidebar').classList.add('w3-hide')}}>{this.props.themeSettings.name}</button></div>
                     </div>
-                    <div className='w3-row w3-bar-item w3-block w3-margin-top'>
-                        <div className='w3-col s6 m6 l6 w3-padding' style={{ color: this.props.themeSettings.textColor }}>
-                            <img src={this.state.sigh} onClick={e => this.nav(e, 'open')} alt='sigh' style={{ width: '40px', height: '40px', color: this.props.themeSettings.color }} />
-                        </div>
-                        <div className='w3-col s6 m6 l6 w3-margin-top'>
-                            <Link to='/App' className='w3-padding w3-bold' style={{ color: this.props.themeSettings.textColor }} >Sighs</Link>
-                        </div>
+                    <div>
+                        {
+                            this.state.links.map(l=>{
+                                return(
+                                    <div className='w3-row w3-bar-item w3-block w3-margin-top'>
+                                        <div className='w3-col s6 m6 l6 w3-padding' style={{ color: this.props.themeSettings.textColor }}>
+                                            <img src={l.img} onClick={e => this.nav(e, 'open')} alt='settings' style={{ width: '40px', height: '40px', color: this.props.themeSettings.color }} />
+                                        </div>
+                                        <div className='w3-col s6 m6 l6 w3-margin-top'>
+                                            <Link to={`/${l.to}`} className='w3-padding w3-bold' style={{ color: this.props.themeSettings.textColor }} >{l.name}</Link>
+                                        </div>
+                                    </div>
+                                )
+                            })
+                        }
                     </div>
-                    <div className='w3-row w3-bar-item w3-block w3-margin-top'>
-                        <div className='w3-col s6 m6 l6 w3-padding' style={{ color: this.props.themeSettings.textColor }}>
-                            <img src={this.state.bookmark} onClick={e => this.nav(e, 'open')} alt='bookmark' style={{ width: '40px', height: '40px', color: this.props.themeSettings.color }} />
-                        </div>
-                        <div className='w3-col s6 m6 l6 w3-margin-top'>
-                            <Link to='/Bookmark' className='w3-padding w3-bold' style={{ color: this.props.themeSettings.textColor }} >Bookmark</Link>
-                        </div> 
-                    </div>
-                    <div className='w3-row w3-bar-item w3-block w3-margin-top'>
-                        <div className='w3-col s6 m6 l6 w3-padding' style={{ color: this.props.themeSettings.textColor }}>
-                            <img src={this.state.settings} onClick={e => this.nav(e, 'open')} alt='settings' style={{ width: '40px', height: '40px', color: this.props.themeSettings.color }} />
-                        </div>
-                        <div className='w3-col s6 m6 l6 w3-margin-top'>
-                            <Link to='/Settings' className='w3-padding w3-bold' style={{ color: this.props.themeSettings.textColor }} >Settings</Link>
-                        </div>
-                    </div>
+                    
 
                     <div className='w3-bar-item w3-block w3-margin-top'>
                         <div className='w3-row w3-center'>

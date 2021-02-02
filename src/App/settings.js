@@ -72,6 +72,19 @@ export default class Settings extends Component {
         }
     }
 
+    submit = (e) => {
+        e.preventDefault();
+        let data = {}
+        let form = document.querySelectorAll('.update');
+        for(let f of form){
+            if(f['value'] !== ""){
+                data[f['name']] = f['value']
+            }
+        }
+        console.log(data);
+        db.collection('Users').doc(data['username']).update(data)
+    }
+
 
     render() {
         return (
@@ -91,11 +104,11 @@ export default class Settings extends Component {
                 <div className='w3-row'>
                     <div className='w3-col s12 m3 l3 w3-border w3-round'>
                         <div className='w3-center w3-margin-top'>
-                            <span className='w3-padding w3-large w3-bold' style={{ backgroundColor: this.state.theme.textColor, color: this.state.theme.color }}>Update Profile</span>
+                            <span className='w3-padding w3-large w3-bold' style={{ backgroundColor: this.state.theme.textColor, color: this.state.theme.color }}>Update Password</span>
                         </div>
-                        <form className='w3-padding w3-container w3-margin-top'>
-                            <input className='w3-input w3-padding w3-margin-top w3-round w3-border' type='text' id='username' placeholder='Username' />
-                            <input className='w3-input w3-padding w3-margin-top w3-round w3-border' type='text' id='password' placeholder='Password' />
+                        <form className='w3-padding w3-container w3-margin-top' onSubmit={this.submit}>
+                            <input className='w3-input w3-padding w3-margin-top w3-round w3-border update' type='text' name='username' placeholder='Username' />
+                            <input className='w3-input w3-padding w3-margin-top w3-round w3-border update' type='password' name='password' placeholder='Password' />
                             <div className='w3-center'>
                                 <button className='w3-padding w3-margin-top w3-round w3-btn' style={{ backgroundColor: this.state.theme.textColor, color: this.state.theme.color }}>Update</button>
                             </div>

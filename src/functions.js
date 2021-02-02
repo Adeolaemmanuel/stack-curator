@@ -38,6 +38,16 @@ class Functions {
                 return(theme)
         }
     }
+
+    notification = (message, theme) => {
+        return(
+            <>
+                <div className='w3-padding w3-center' style={{ backgroundColor: theme.textColor }}>
+                    <span className='w3-padding' style={{ color: theme.color }}>{message}</span>
+                </div>
+            </>
+        )
+    }
 }
 
 const fn = new Functions();
@@ -137,7 +147,7 @@ class Curate extends Functions {
     }
 
 
-    postSigh = (e,pram) =>{
+    postSigh = (e,pram,theme) =>{
         e.preventDefault();
         if(pram === 'curate'){
             document.getElementById('curate').classList.add('w3-hide')
@@ -181,6 +191,7 @@ class Curate extends Functions {
                                 document.getElementById('posts').value = ''
                                 document.getElementById('post').classList.add('w3-hide')
                                 document.getElementById('curate').classList.remove('w3-hide')
+                                this.notification('Sigh Posted', theme)
                             })
                         }
                     })
@@ -199,9 +210,9 @@ class Curate extends Functions {
                         <span className='w3-button w3-padding w3-right w3-margin-bottom' style={{backgroundColor: theme.textColor, color: theme.color}} onClick={()=>{document.getElementById('post').classList.add('w3-hide');document.getElementById('curate').classList.remove('w3-hide')}} >X</span>
                         <form className='w3-margin-top'>
                             <input className='w3-input w3-border w3-round' type='text' placeholder="Tag" id='tags' />
-                            <textarea className='w3-input w3-border w3-round w3-margin-top' id='posts' onChange={e => { this.inpuctSize(e) }} placeholder="What's on your mind..."></textarea>
+                            <textarea className='w3-input w3-border w3-round w3-margin-top' id='posts' onChange={this.inputSize} placeholder="What's on your mind..."></textarea>
                             <div className='w3-center'>
-                                <button className='w3-btn w3-round w3-margin-top' style={{ backgroundColor: theme.textColor, color: theme.color }}  onClick={e=>{cu.postSigh(e,'post')}}>Send</button>
+                                <button className='w3-btn w3-round w3-margin-top' style={{ backgroundColor: theme.textColor, color: theme.color }}  onClick={e=>{cu.postSigh(e,'post',theme)}}>Send</button>
                             </div>
                         </form>
                     </div>

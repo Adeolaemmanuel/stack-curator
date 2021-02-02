@@ -190,7 +190,7 @@ export default class App extends Component {
                             return(
                                 <div key={ind} id={`${ind}S`}>
                                     <div className='w3-row w3-card w3-round w3-margin-top w3-hover-blue w3-mobile' onClick={() => { cu.more(`${ind}C`) }} style={{ cursor: 'pointer' }}>
-                                        <div className='w3-padding'><p style={{ color: this.state.theme.textColor }}>__{arr.user}: <br />{arr.post}</p></div>
+                                        <div className='w3-padding'><p style={{ color: this.state.theme.textColor, overflowWrap:'break-word' }}>__{arr.user}: <br />{arr.post}</p></div>
                                         <div className='w3-col m6 l6 s6 w3-padding w3-margin-top' style={{ color: this.state.theme.textColor }} ><code>{arr.comCount} Comments</code></div>
                                         <div className='w3-col m6 l6 s6 w3-padding'><p className='w3-right' style={{ color: this.state.theme.textColor, overflowWrap: 'break-word' }}><code className='w3-margin-right'>{arr.time}</code><code>{arr.date}</code></p></div>
                                     </div>

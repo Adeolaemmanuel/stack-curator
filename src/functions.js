@@ -48,6 +48,20 @@ class Functions {
             </>
         )
     }
+
+    user = () => {
+        let users
+        db.collection('Users').doc(this.cookie.get('id')).onSnapshot(u=>{
+            if(u.exists){
+                users = {
+                    username: u.username,
+                    password: u.password,
+                    bookmarked: u.bookmarkmed,
+                }
+            }
+        })
+        return users
+    }
 }
 
 const fn = new Functions();

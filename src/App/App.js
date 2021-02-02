@@ -142,7 +142,7 @@ export default class App extends Component {
             return (
                 <>
                     
-                    <div className='w3-margin-left'>
+                    <div className='w3-margin-left' key={`${edt.id}${edt.date}`}>
                         <span className='w3-padding w3-small w3-margin-top w3-card-4 w3-round-large' id={`#edt${edt}`} onDoubleClick={() => this.setState({ optionsModal: true, buttonPostUpdate: { title: 'Answer their sigh', action: 'post', comId: com.id, user: com.user, ind: ind } })} style={{ display: 'inline-block', color: theme.color, backgroundColor: theme.textColor }}><i>@{com.user}:</i> <br />{com.comment}</span>
                     </div>
                     
@@ -188,7 +188,7 @@ export default class App extends Component {
                         {
                         this.state.posts.map((arr,ind)=>{
                             return(
-                                <div key={ind} id={`${ind}S`}>
+                                <div key={arr.tag} id={`${ind}S`}>
                                     <div className='w3-row w3-card w3-round w3-margin-top w3-hover-blue w3-mobile' onClick={() => { cu.more(`${ind}C`) }} style={{ cursor: 'pointer' }}>
                                         <div className='w3-padding'><p style={{ color: this.state.theme.textColor, overflowWrap:'break-word' }}>__{arr.user}: <br />{arr.post}</p></div>
                                         <div className='w3-col m6 l6 s6 w3-padding w3-margin-top' style={{ color: this.state.theme.textColor }} ><code>{arr.comCount} Comments</code></div>
@@ -225,9 +225,7 @@ export default class App extends Component {
                         })
                         }
                     </div>
-                    <div className='w3-col m3 l3' style={{marginTop: '50px'}}>
                     
-                    </div>
                 </div>
             </div>
         )

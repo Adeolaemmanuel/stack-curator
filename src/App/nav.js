@@ -12,6 +12,7 @@ import upW from '../assets/img/upW.svg'
 import { Link } from "react-router-dom";
 import { Cookies } from 'react-cookie'
 import './App.css'
+import {db} from '../database'
 export default class Nav extends Component {
 
     constructor(props) {
@@ -19,10 +20,12 @@ export default class Nav extends Component {
         this.state = {
             up: upB,
             menuBar: bar,
-            links: [{to: 'App', name: 'Sighs',img: sighB},{to: 'Bookmark', name: 'Bookmark', img: bokMB},{to: 'Settings', name: 'Settings',img: setB}]
+            links: [{to: 'App', name: 'Sighs',img: sighB},{to: 'Bookmark', name: 'Bookmark', img: bokMB},{to: 'Settings', name: 'Settings',img: setB}],
+            bookmarked: null,
         }
     }
 
+    cookie = new Cookies();
     componentDidMount() {
         let menuBarCheck = localStorage.getItem('theme')
         if (menuBarCheck === 'light') {
@@ -30,6 +33,15 @@ export default class Nav extends Component {
         } else if (menuBarCheck === 'dark') {
             this.setState({ links: [{to: 'App', name: 'Sighs',img: sighW},{to: 'Bookmark', name: 'Bookmark', img: bokMW},{to: 'Settings', name: 'Settings',img: setW}], up: upW,  menuBar: barw  }) 
         }
+        this.user()
+    }
+
+    user = () => {
+        db.collection('Users').doc(this.cookie.get('id')).onSnapshot(u=>{
+            if(u.exists){
+                this.setState({bookmarked: u.data().bookmarked})
+            }
+        })
     }
 
     nav = (e, pram) => {
@@ -71,7 +83,7 @@ export default class Nav extends Component {
                         {
                             this.state.links.map(l=>{
                                 return(
-                                    <div className='w3-row w3-bar-item w3-block w3-margin-top'>
+                                    <div className='w3-row w3-bar-item w3-block w3-margin-top' key={l.to}>
                                         <div className='w3-col s6 m6 l6 w3-padding' style={{ color: this.props.themeSettings.textColor }}>
                                             <img src={l.img} onClick={e => this.nav(e, 'open')} alt='settings' style={{ width: '40px', height: '40px', color: this.props.themeSettings.color }} />
                                         </div>
@@ -92,6 +104,14 @@ export default class Nav extends Component {
                             </div>
                             <div className='w3-col s6 m6 l6'>
                                 <h6><code style={{ color: this.props.themeSettings.textColor }} >{new Cookies().get('id')}</code></h6>
+                            </div>
+                        </div>
+                        <div className='w3-row w3-center'>
+                            <div className='w3-col s6 m6 l6'>
+                                <h6 style={{ color: this.props.themeSettings.textColor }} ><code>Bookmarks: </code></h6>
+                            </div>
+                            <div className='w3-col s6 m6 l6'>
+                                <h6><code style={{ color: this.props.themeSettings.textColor }} >{this.state.bookmarked}</code></h6>
                             </div>
                         </div>
                     </div>

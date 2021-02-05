@@ -30,10 +30,12 @@ export default class App extends Component {
 
     componentDidMount() {
         let menuBarCheck = localStorage.getItem('theme')
-        db.collection('Users').doc(this.cookie.get('id')).get()
-        .then(e=>{
-            this.setState({hint: e.data().hint})
-        })
+        if(this.cookie.get('id') !== 'anonymous'){
+            db.collection('Users').doc(this.cookie.get('id')).get()
+            .then(e=>{
+                this.setState({hint: e.data().hint})
+            })
+        }
         if (menuBarCheck === 'light') {
             this.setState({ svg: { edit: editB, sigh: sighB} })
         } else if (menuBarCheck === 'dark') {

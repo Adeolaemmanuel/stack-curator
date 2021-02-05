@@ -59,6 +59,48 @@ export default class Nav extends Component {
         }
     }
 
+    navCheck = () => {
+        if(this.cookie.get('id') !== 'anonymous'){
+            return(
+                <>
+                    {
+                        this.state.links.map(l=>{
+                            return(
+                                <div className='w3-row w3-bar-item w3-block w3-margin-top' key={l.to}>
+                                    <div className='w3-col s6 m6 l6 w3-padding' style={{ color: this.props.themeSettings.textColor }}>
+                                        <img src={l.img} onClick={e => this.nav(e, 'open')} alt='settings' style={{ width: '40px', height: '40px', color: this.props.themeSettings.color }} />
+                                    </div>
+                                    <div className='w3-col s6 m6 l6 w3-margin-top'>
+                                        <Link to={`/${l.to}`} className='w3-padding w3-bold' style={{ color: this.props.themeSettings.textColor }} >{l.name}</Link>
+                                    </div>
+                                </div>
+                            )
+                        })
+                    }
+
+                    <div className='w3-bar-item w3-block w3-margin-top'>
+                        <div className='w3-row w3-center'>
+                            <div className='w3-col s6 m6 l6'>
+                                <h6 style={{ color: this.props.themeSettings.textColor }} ><code>Username: </code></h6>
+                            </div>
+                            <div className='w3-col s6 m6 l6'>
+                                <h6><code style={{ color: this.props.themeSettings.textColor }} >{new Cookies().get('id')}</code></h6>
+                            </div>
+                        </div>
+                        <div className='w3-row w3-center'>
+                            <div className='w3-col s6 m6 l6'>
+                                <h6 style={{ color: this.props.themeSettings.textColor }} ><code>Bookmarks: </code></h6>
+                            </div>
+                            <div className='w3-col s6 m6 l6'>
+                                <h6><code style={{ color: this.props.themeSettings.textColor }} >{this.state.bookmarked}</code></h6>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )
+        }
+    }
+
 
     render() {
         return (
@@ -81,40 +123,10 @@ export default class Nav extends Component {
                     </div>
                     <div>
                         {
-                            this.state.links.map(l=>{
-                                return(
-                                    <div className='w3-row w3-bar-item w3-block w3-margin-top' key={l.to}>
-                                        <div className='w3-col s6 m6 l6 w3-padding' style={{ color: this.props.themeSettings.textColor }}>
-                                            <img src={l.img} onClick={e => this.nav(e, 'open')} alt='settings' style={{ width: '40px', height: '40px', color: this.props.themeSettings.color }} />
-                                        </div>
-                                        <div className='w3-col s6 m6 l6 w3-margin-top'>
-                                            <Link to={`/${l.to}`} className='w3-padding w3-bold' style={{ color: this.props.themeSettings.textColor }} >{l.name}</Link>
-                                        </div>
-                                    </div>
-                                )
-                            })
+                            this.navCheck()
                         }
                     </div>
                     
-
-                    <div className='w3-bar-item w3-block w3-margin-top'>
-                        <div className='w3-row w3-center'>
-                            <div className='w3-col s6 m6 l6'>
-                                <h6 style={{ color: this.props.themeSettings.textColor }} ><code>Username: </code></h6>
-                            </div>
-                            <div className='w3-col s6 m6 l6'>
-                                <h6><code style={{ color: this.props.themeSettings.textColor }} >{new Cookies().get('id')}</code></h6>
-                            </div>
-                        </div>
-                        <div className='w3-row w3-center'>
-                            <div className='w3-col s6 m6 l6'>
-                                <h6 style={{ color: this.props.themeSettings.textColor }} ><code>Bookmarks: </code></h6>
-                            </div>
-                            <div className='w3-col s6 m6 l6'>
-                                <h6><code style={{ color: this.props.themeSettings.textColor }} >{this.state.bookmarked}</code></h6>
-                            </div>
-                        </div>
-                    </div>
                 </div>
                 <a href='#top' className='w3-padding top'>
                     <img src={this.state.up} alt='up' style={{width: '50px', height: '50px'}} />
